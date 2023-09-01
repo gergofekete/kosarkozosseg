@@ -37,11 +37,11 @@
             <!--<li><a href="rolunk.php">Rólunk</a></li>-->
         </ul>
     </div>
-    <div>
+</nav>
+<div>
         <p>
             Amikor kosárközösségekről beszélünk.
         </p>
     </div>
-</nav>
 </body>
 </html>                            
