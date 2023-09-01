@@ -39,7 +39,7 @@
     </div>
 </nav>
 <div>
-        <p>
+        <p style="text-align: center;">
             Amikor kosárközösségekről beszélünk.
         </p>
     </div>
