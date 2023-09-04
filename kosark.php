@@ -40,7 +40,7 @@
 </nav>
 <div>
         <p style="text-align: center;">
-            Amikor kosárközösségekről beszélünk. Az.
+            Amikor kosárközösségekről beszélünk.
         </p>
     </div>
 </body>
