@@ -38,10 +38,45 @@
         </ul>
     </div>
 </nav>
-<div>
-        <p>
-            Amikor kosárközösségekről beszélünk.
+<table>
+    <tr>
+        <td colspan="2">
+            <h2 style="text-align: center;">Mik azok a kosárközösségek?</h2>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <p style="text-align: center;">
+                A kosárközösségek olyan csoportok vagy közösségek, amelyek tagjai közösen vásárolnak élelmiszereket 
+                közvetlenül a helyi termelőktől vagy a helyi piacról. Az ilyen közösségek általában azt a célt szolgálják, 
+                hogy a tagok friss és egészséges élelmiszereket kapjanak, amelyeket helyi termelőktől vásárolnak meg, 
+                miközben csökkentik a közvetítők és a nagyobb élelmiszerboltok általában elszámolt nagyobb árakat.
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p style="text-align: left;">
+            A kosárközösségek általában úgy működnek, hogy a tagok előre megrendelik az élelmiszereket a termelőktől 
+            vagy a piactól, majd a közösség valamelyik tagja összegyűjti és kiosztja a tagoknak. Ez lehetővé teszi, 
+            hogy a tagok közvetlenül kapcsolatba kerüljenek a termelőkkel és a helyi élelmiszer-forrásokkal, és megismerjék 
+            az élelmiszerük eredetét és előállítási módját.
+            </p>
+        </td>
+        <td>
+            <img src="style/osszegyujtott.jpg" alt=""
+            width="200">
+        </td>
+    </tr>
+</table>
+<!-- <div>
+    <h1 style="text-align: center;">Mik azok a kosárközösségek?</h1>
+        <p style="text-align: center;">
+        A kosárközösségek olyan csoportok vagy közösségek, amelyek tagjai közösen vásárolnak élelmiszereket 
+        közvetlenül a helyi termelőktől vagy a helyi piacról. Az ilyen közösségek általában azt a célt szolgálják, 
+        hogy a tagok friss és egészséges élelmiszereket kapjanak, amelyeket helyi termelőktől vásárolnak meg, 
+        miközben csökkentik a közvetítők és a nagyobb élelmiszerboltok általában elszámolt nagyobb árakat.
         </p>
-    </div>
+    </div> -->
 </body>
 </html>                            

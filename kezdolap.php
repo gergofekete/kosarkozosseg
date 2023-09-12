@@ -50,7 +50,7 @@
                 </ol>   
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img src="style/zoldsegek.jpg" alt="">
+                        <img src="style/kezdolap1.jpg" alt="">
                         <div class="carousel-caption">
                             <h3>Mik azok a kosárközösségek?</h3>
                             <p>Olyan önkéntes alapon szerveződő csoportok, amelyekben a helyi élelmiszer termelők és vásárlók közvetlen kapcsolatba kerülnek.</p>
@@ -61,7 +61,7 @@
                         </div>
                     </div>  
                     <div class="item">
-                        <img src="style/vasarlas.jpg" alt="">
+                        <img src="style/gyumolcsok.jpg" alt="">
                         <div class="carousel-caption">
                             <h3>Vásárolj helyi termelőktől!</h3>                            
                             <p>Így friss és egészséges élelmiszerekhez tudsz hozzájutni, támogatod a helyi termelőket és környezettudatosabb is.</p>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <img src="style/eladas.jpg" alt="">
+                        <img src="style/zoldsegek.png" alt="">
                         <div class="carousel-caption">
                             <h3>Add el saját terményeidet!</h3>
                             <p>Add el gyorsan és egyszerűen saját számodra fölösleges terményeidet.</p>
