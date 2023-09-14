@@ -1,5 +1,5 @@
 <?php
-//include('connect.php');
+include('connect.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,12 +17,12 @@
     </style>
 </head>
 <?php
-/*if(isset($_POST['login'])) {
+if(isset($_POST['login'])) {
     $username = $_POST['username'];
-    $pw = $_POST['password'];
-    $pw = md5($pw);
-    $sql = "SELECT * FROM users WHERE (username = '$username' AND pw = '$pw') OR (email = '$username' AND pw = '$pw')";
-    $result = mysqli_query($conn, $sql);
+    $password = $_POST['password'];
+    $password = md5($password);
+    $sql = "SELECT * FROM user WHERE (username = '$username' AND password = '$password') OR (email = '$username' AND password = '$password')";
+    $result = mysqli_query($connect, $sql);
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $count = mysqli_num_rows($result);
 
@@ -35,7 +35,7 @@
     else {
         $error = "Hibás felhasználónév vagy jelszó!";
     }
-}*/
+}
 ?>
 <body>
 <div class="login-form">
@@ -55,7 +55,7 @@
             <a href="#" class="pull-left">Elfelejtett jelszó</a>
         </div>
         <div class="clearfix">
-            <a href="signup.php" class="pull-left">Még nincs fiókom, regisztrálok!</a>
+            <a href="register.php" class="pull-left">Még nincs fiókom, regisztrálok!</a>
         </div>
     </form>
 </div>
