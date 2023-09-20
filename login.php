@@ -1,5 +1,49 @@
 <?php
 include('connect.php');
+
+session_start();
+session_destroy();
+session_start();
+
+if(isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    //$username = stripcslashes($username);
+    //$password = stripcslashes($password);
+    //$username = mysqli_real_escape_string($connect, $username);
+    //$password = mysqli_real_escape_string($connect, $password);
+
+    $password = md5($password);
+
+    $felhasznalo = "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '0') OR (email = '$username' AND password = '$password' AND admine = '0')";
+    $admin = "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '1') OR (email = '$username' AND password = '$password' AND admine = '1')";
+
+    $fresult = mysqli_query($connect, $felhasznalo);
+    $aresult = mysqli_query($connect, $admin);
+
+    $frow = mysqli_fetch_array($fresult, MYSQLI_ASSOC);
+    $arow = mysqli_fetch_array($aresult, MYSQLI_ASSOC);
+
+    $fcount = mysqli_num_rows($fresult);
+    $acount = mysqli_num_rows($aresult);
+
+    if($acount == 1) {
+        $_SESSION['login_user'] = $username;
+        $_SESSION['access'] = '1';
+        header("location: ./adminkezdolap.php");
+    }
+    if($fcount == 1) {
+        echo "Sikeres bejelentkezés";
+        $_SESSION['login_user'] = $username;
+        $_SESSION['access'] = '0';
+        header("location: ./kezdolap.php");
+    }
+    else {
+        $error = "Hibás felhasználónév vagy jelszó!";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,27 +60,6 @@ include('connect.php');
        @import url(style/login.css);
     </style>
 </head>
-<?php
-if(isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $password = md5($password);
-    $sql = "SELECT * FROM user WHERE (username = '$username' AND password = '$password') OR (email = '$username' AND password = '$password')";
-    $result = mysqli_query($connect, $sql);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $count = mysqli_num_rows($result);
-
-    if($count == 1) {
-        echo "Sikeres bejelentkezés";
-        $_SESSION['login_user'] = $username;
-        //$_SESSION['access'] = '';
-        header("location: ./kezdolap.php");
-    }
-    else {
-        $error = "Hibás felhasználónév vagy jelszó!";
-    }
-}
-?>
 <body>
 <div class="login-form">
     <form method="post">
