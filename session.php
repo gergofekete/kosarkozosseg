@@ -1,6 +1,8 @@
 <?php
 include('connect.php');
 
+session_start();
+
 function access($rank){
     if($rank == "ADMIN"){
         if(isset($_SESSION["ACCESS"]) && !$_SESSION["ACCESS"][$rank]){
@@ -17,8 +19,8 @@ function access($rank){
 $_SESSION["ACCESS"]["ADMIN"] = isset($_SESSION["access"]) && $_SESSION["access"] == '1';
 $_SESSION["ACCESS"]["FELHASZNALO"] = isset($_SESSION["access"]) && $_SESSION["access"] == '0';
 
-if(!isset($_SESSION['login_user'])) {
-    header("location: ../login.php ");
+if(!isset($_SESSION['bejelentkezett'])) {
+    header("location: ../kosarkozosseg/login.php");
     die();
 }
 ?>

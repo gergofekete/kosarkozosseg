@@ -1,3 +1,8 @@
+<?php
+include('session.php');
+access("FELHASZNALO");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +40,7 @@
             <li><a href="kosark.php">Mi az a kosárközösség?</a></li>
             <li><a href="uzenet.php">Üzenetek</a></li>
             <li><a href="profile.php">Profilom</a></li>
+            <li> <a href="logout.php"> Kijelentkezés</a></li>
             <!--<li><a href="rolunk.php">Rólunk</a></li>-->
         </ul>
     </div>

@@ -16,27 +16,23 @@ if(isset($_POST['login'])) {
 
     $password = md5($password);
 
-    $felhasznalo = "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '0') OR (email = '$username' AND password = '$password' AND admine = '0')";
-    $admin = "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '1') OR (email = '$username' AND password = '$password' AND admine = '1')";
+    $felhasznalo = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '0') OR (email = '$username' AND password = '$password' AND admine = '0')");
+    $admin = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '1') OR (email = '$username' AND password = '$password' AND admine = '1')");
 
-    $fresult = mysqli_query($connect, $felhasznalo);
-    $aresult = mysqli_query($connect, $admin);
-
-    $frow = mysqli_fetch_array($fresult, MYSQLI_ASSOC);
-    $arow = mysqli_fetch_array($aresult, MYSQLI_ASSOC);
-
-    $fcount = mysqli_num_rows($fresult);
-    $acount = mysqli_num_rows($aresult);
+    $fcount = mysqli_num_rows($felhasznalo);
+    $acount = mysqli_num_rows($admin);
 
     if($acount == 1) {
-        $_SESSION['login_user'] = $username;
-        $_SESSION['access'] = '1';
+        $_SESSION['bejelentkezett'] = $username;
+        $_SESSION['access'] = 1;
+        $error = "";
         header("location: ./adminkezdolap.php");
     }
-    if($fcount == 1) {
-        echo "Sikeres bejelentkezés";
-        $_SESSION['login_user'] = $username;
-        $_SESSION['access'] = '0';
+    else if($fcount == 1) {
+        $_SESSION['bejelentkezett'] = $username;
+        $_SESSION['access'] = 0;
+        $error = "";
+        echo "SZÁZ FORINTNAK 50 A FELE";
         header("location: ./kezdolap.php");
     }
     else {
