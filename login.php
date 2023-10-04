@@ -1,5 +1,45 @@
 <?php
-//include('connect.php');
+include('connect.php');
+
+session_start();
+session_destroy();
+session_start();
+
+if(isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    //$username = stripcslashes($username);
+    //$password = stripcslashes($password);
+    //$username = mysqli_real_escape_string($connect, $username);
+    //$password = mysqli_real_escape_string($connect, $password);
+
+    $password = md5($password);
+
+    $felhasznalo = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '0') OR (email = '$username' AND password = '$password' AND admine = '0')");
+    $admin = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '1') OR (email = '$username' AND password = '$password' AND admine = '1')");
+
+    $fcount = mysqli_num_rows($felhasznalo);
+    $acount = mysqli_num_rows($admin);
+
+    if($acount == 1) {
+        $_SESSION['bejelentkezett'] = $username;
+        $_SESSION['access'] = 1;
+        $error = "";
+        header("location: ./adminkezdolap.php");
+    }
+    else if($fcount == 1) {
+        $_SESSION['bejelentkezett'] = $username;
+        $_SESSION['access'] = 0;
+        $error = "";
+        echo "SZÁZ FORINTNAK 50 A FELE";
+        header("location: ./kezdolap.php");
+    }
+    else {
+        $error = "Hibás felhasználónév vagy jelszó!";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,27 +56,6 @@
        @import url(style/login.css);
     </style>
 </head>
-<?php
-/*if(isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $pw = $_POST['password'];
-    $pw = md5($pw);
-    $sql = "SELECT * FROM users WHERE (username = '$username' AND pw = '$pw') OR (email = '$username' AND pw = '$pw')";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    $count = mysqli_num_rows($result);
-
-    if($count == 1) {
-        echo "Sikeres bejelentkezés";
-        $_SESSION['login_user'] = $username;
-        //$_SESSION['access'] = '';
-        header("location: ./kezdolap.php");
-    }
-    else {
-        $error = "Hibás felhasználónév vagy jelszó!";
-    }
-}*/
-?>
 <body>
 <div class="login-form">
     <form method="post">
@@ -55,7 +74,7 @@
             <a href="#" class="pull-left">Elfelejtett jelszó</a>
         </div>
         <div class="clearfix">
-            <a href="signup.php" class="pull-left">Még nincs fiókom, regisztrálok!</a>
+            <a href="register.php" class="pull-left">Még nincs fiókom, regisztrálok!</a>
         </div>
     </form>
 </div>

@@ -1,6 +1,5 @@
 <?php
-//include('connect.php');
-
+include('connect.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,17 +15,19 @@
     </style>
 </head>
 <?php
-/*if(isset($_POST['register'])) {
-    $firstname = $_POST['first_name'];
-    $lastname = $_POST['last_name'];
+
+if(isset($_POST['register'])) {
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $pw = md5($_POST['password']);
-    $taken = mysqli_query($conn,"SELECT username, email FROM users");
+    $password = $_POST['password'];
+    $password = md5($password);
+    $taken = mysqli_query($connect, "SELECT username, email FROM user");
     if(isset($taken)) {
         while($row = mysqli_fetch_assoc($taken)) {
             if($row["email"] == $email) {
-                $error = "Ezen az email címen már van felhasználó regisztrálva";
+                $error = "Ezen az email címen már van fiók regisztálva!";
             }
             else if($row["username"] == $username) {
                 $error = "Ez a felhasználónév már foglalt!";
@@ -36,18 +37,18 @@
             }
         }
         if($jo == 1) {
-            $sql = "Insert into users (username, lname, fname, email, pw) values ('$username', '$lastname', '$firstname', '$email', '$pw')";
-            header("location: afterreg.php");
-            if($conn->query($sql) === TRUE) {
-                echo "en mar rugtam szajba not.";
+            $sql = "INSERT INTO user (username, lname, fname, email, password) VALUES ('$username', '$lname', '$fname', '$email', '$password')";
+            header("location: kezdolap.php");
+            if($connect->query($sql)=== TRUE) {
+                echo "SIKER";
             }
-            else{
-                echo "teged a lali nyomogat";
+            else {
+                echo "SAJNOS NEM JOTT OSSZE";
             }
-            $conn->close();
+            $connect->close();
         }
     }
-}*/
+}
 ?>
 <body>
 <div class="signup-form">
@@ -56,8 +57,8 @@
         <p class="hint-text" style="color: #d00000"><?php if (isset($_POST['register'])){echo $error;} ?></p>
         <div class="form-group">
             <div class="row">
-                <div class="col-xs-6"><input type="text" class="form-control" name="first_name" placeholder="Keresztnév" required="required"></div>
-                <div class="col-xs-6"><input type="text" class="form-control" name="last_name" placeholder="Vezetéknév" required="required"></div>
+                <div class="col-xs-6"><input type="text" class="form-control" name="lname" placeholder="Vezetéknév" required="required"></div>
+                <div class="col-xs-6"><input type="text" class="form-control" name="fname" placeholder="Keresztnév" required="required"></div>
             </div>
         </div>
         <div class="form-group">

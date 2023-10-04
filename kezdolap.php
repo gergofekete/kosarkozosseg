@@ -1,3 +1,8 @@
+<?php
+include('session.php');
+access("FELHASZNALO");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +18,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
-    @import url(style/navstyle.css);
-    @import url(style/kezdolap.css);
+    @import "style/navstyle.css";
+    @import "style/kezdolap.css";
 </style>
 </head> 
 <body>
@@ -36,6 +41,9 @@
             <li><a href="uzenet.php">Üzenetek</a></li>
             <li><a href="profile.php">Profilom</a></li>
             <!--<li><a href="rolunk.php">Rólunk</a></li>-->
+        </ul>
+        <ul class="nav navbar-form form-inline navbar-right ml-auto">
+            <li style="float: right;text-align:right; color: black;"><a href="logout.php">Kijelentkezés</a></li>
         </ul>
     </div>
 </nav>
