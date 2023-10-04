@@ -40,8 +40,10 @@ access("FELHASZNALO");
             <li><a href="kosark.php">Mi az a kosárközösség?</a></li>
             <li><a href="uzenet.php">Üzenetek</a></li>
             <li><a href="profile.php">Profilom</a></li>
-            <li> <a href="logout.php"> Kijelentkezés</a></li>
             <!--<li><a href="rolunk.php">Rólunk</a></li>-->
+        </ul>
+        <ul class="nav navbar-form form-inline navbar-right ml-auto">
+            <li style="float: right;text-align:right; color: black;"><a href="logout.php">Kijelentkezés</a></li>
         </ul>
     </div>
 </nav>

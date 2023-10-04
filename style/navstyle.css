@@ -8,6 +8,7 @@ body {
 .navbar {
     font-size: 16px;
     background: #ffffff;
+    padding-top: 3px;
     padding-left: 20px;
     padding-right: 20px;
     border-bottom: 1px solid #d6d6d6;

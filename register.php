@@ -15,40 +15,6 @@ include('connect.php');
     </style>
 </head>
 <?php
-/*if(isset($_POST['register'])) {
-    $firstname = $_POST['first_name'];
-    $lastname = $_POST['last_name'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = md5($_POST['password']);
-    $jo = 0;
-    $error = "";
-    $taken = mysqli_query($connect,"SELECT username, email FROM user");
-    if(isset($taken)) {
-        while($row = mysqli_fetch_assoc($taken)) {
-            if($row["email"] == $email) {
-                $error = "Ezen az email címen már van felhasználó regisztrálva";
-            }
-            else if($row["username"] == $username) {
-                $error = "Ez a felhasználónév már foglalt!";
-            }
-            else {
-                $jo = 1;
-            }
-        }
-        if($jo == 1) {
-            $sql = "Insert into user (username, lname, fname, email, password) values ('$username', '$lastname', '$firstname', '$email', '$password')";
-            header("location: kezdolap.php");
-            if($connect->query($sql) === TRUE) {
-                echo "Siker";
-            }
-            else{
-                echo "Kezdheted előröl csöves.";
-            }
-            $conn->close();
-        }
-    }
-}*/
 
 if(isset($_POST['register'])) {
     $fname = $_POST['fname'];
@@ -91,8 +57,8 @@ if(isset($_POST['register'])) {
         <p class="hint-text" style="color: #d00000"><?php if (isset($_POST['register'])){echo $error;} ?></p>
         <div class="form-group">
             <div class="row">
-                <div class="col-xs-6"><input type="text" class="form-control" name="fname" placeholder="Keresztnév" required="required"></div>
                 <div class="col-xs-6"><input type="text" class="form-control" name="lname" placeholder="Vezetéknév" required="required"></div>
+                <div class="col-xs-6"><input type="text" class="form-control" name="fname" placeholder="Keresztnév" required="required"></div>
             </div>
         </div>
         <div class="form-group">

@@ -65,21 +65,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <li class="active"><a href="profile.php">Profilom</a></li>
             <!--<li><a href="rolunk.php">Rólunk</a></li>-->
         </ul>
+        <ul class="nav navbar-form form-inline navbar-right ml-auto">
+            <li style="float: right;text-align:right; color: black;"><a href="logout.php">Kijelentkezés</a></li>
+        </ul>
     </div>
 </nav>
 <style>
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        margin-left: 100px;
-        width: 50%;
-    }
+table {
+    color: #000000;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    margin-left: 100px;
+    width: 50%;
+}
 
-    td, th {
-        border: 1px solid #ffffff;
-        text-align: left;
-        padding: 8px;
-    }
+td, th {
+    text-align: left;
+    padding: 8px;
+}
 </style>
 <table>
     <tr>
