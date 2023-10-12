@@ -74,7 +74,7 @@ if(isset($_POST['login'])) {
             <a href="#" class="pull-left">Elfelejtett jelszó</a>
         </div>
         <div class="clearfix">
-            <a href="register.php" class="pull-left">Még nincs fiókom, regisztrálok!</a>
+            <p class="pull-left" style="color: #000000;">Még nincs fiókom, &nbsp;</p><a href="register.php"> REGISZTRÁLOK!</a>
         </div>
     </form>
 </div>

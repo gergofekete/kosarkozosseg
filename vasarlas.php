@@ -30,6 +30,7 @@
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
             <li><a href="eladas.php">Eladás</a></li>
+            <li><a href="hirdeteseim.php">Hirdetéseim</a></li>
             <li class="active"><a href="vasarlas.php">Vásárlás</a></li>            
             <li><a href="kosark.php">Mi az a kosárközösség?</a></li>
             <li><a href="uzenet.php">Üzenetek</a></li>

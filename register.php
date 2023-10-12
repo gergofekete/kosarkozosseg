@@ -80,7 +80,7 @@ if(isset($_POST['register'])) {
             <button type="submit" name="register" class="btn btn-success btn-lg btn-block">Regisztráció</button>
         </div>
     </form>
-    <div class="text-center">Már van fiókod? <a href="login.php">Bejelentkezés</a></div>
+    <div class="text-center">Már van fiókod? <a href="login.php">BEJELENTKEZÉS</a></div>
 </div>
 </body>
 </html>
