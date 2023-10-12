@@ -2,6 +2,14 @@
 include("session.php");
 access("FELHASZNALO");
 include("connect.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST') {
+    $login_user = $_SESSION['bejelentkezett'];
+    $hirdeto = mysqli_query($connect, "SELECT user_id FROM user WHERE username = '$login_user'");
+    $hirdeto_row = mysqli_fetch_assoc($hirdeto);
+    $hirdeto_id = $hirdeto_row['user_id'];
+    $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id = '$hirdeto_id' AND jovahagyva = '0' AND torolve = '0'");
+}
 ?>
 
 <!DOCTYPE html>
@@ -60,78 +68,69 @@ include("connect.php");
             <h5>Hirdetett Termékeim</h5>
         </div>
     </div><!--container-fluid close-->
-
-
     <section>
         <div class="container">
-            <div class="row">
-                <!-- item -->
-                <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+        <div class="row">
+            <?php
+            if (isset($termekek)) {
+                while ($row = mysqli_fetch_assoc($termekek)) {?>
+                    <div class="col-md-4 col-sm-4 col-xs-12 text-center">
                     <div class="panel panel-pricing">
                         <div class="panel-heading">
-                            <i class="fa"><img src="uploads/banan_1.jpg" style="width: auto; height: 100px;" alt=""></i>
-                            <h3>Plan -1</h3>
+                            <i class="fa"><img src="data:image/jpg;base64,'.base64_encode($row['kep']).'" style="width: auto; height: 100px;" alt=""/></i>
+                            <h3>Termék neve: &nbsp; <?php echo $row['nev']; ?></h3>
                         </div><!--panel-heading close-->
                         <div class="panel-body text-center">
-                            <p class="p-title">Subscription Duration</p><!--p-title close-->
-                            <p class="p-time">2 days - 30 Mins</p><!--p-time close-->
+                            <p class="p-title">Elérhető mennyiség:  &nbsp;
+                                <?php if($row['kategoria_id'] == 1 || $row['kategoria_id'] == 2) {
+                                    echo $row['mennyiseg']." kg";
+                                } else if($row['kategoria_id'] == 3 || $row['kategoria_id'] == 4) {
+                                    echo $row['mennyiseg']." üveg";
+                                } else {
+                                    echo $row['mennyiseg']." liter";
+                                } ?></p>
+                            <p class="p-title">Ár/<?php if($row['kategoria_id'] == 1 || $row['kategoria_id'] == 2) {
+                                    echo "kg: &nbsp;".$row['ar']." Ft";
+                                } else if($row['kategoria_id'] == 3 || $row['kategoria_id'] == 4) {
+                                    echo "üveg: &nbsp;".$row['ar']." Ft";
+                                } else {
+                                    echo "liter: &nbsp;".$row['ar']." Ft";
+                                } ?></p>
                         </div><!--panel-body text-center close-->
                         <div class="panel-body text-center">
-                            <p class="p-price">₦ 50.00 </p><!--p-price close-->
-                            <p class="p-tax">All inclusive</p><!--p-tax close-->
+                            <p class="p-tax">Leírás: &nbsp; <?php echo $row['leiras']; ?></p>
                         </div><!--panel-body text-center close-->
-                        <div class="panel-footer">
-                            <a class="btn sub-btn" href="#">Subscribe Now</a>
-                        </div>
+
+                        <?php
+                            $torolni = $row['termek_id'];
+                        
+                            if(isset($_POST['torles'.$torolni.''])) {
+                                echo "TRRGSDFSFSFSDFSDFSDFSD";
+                                $eltavolit = mysqli_query($connect, "UPDATE termekek SET torolve = '1' WHERE termek_id = '$torolni'");
+                                echo '<script>
+                                location.reload()
+                                </script>';
+                            }
+                            else {
+                                echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa";
+                            }
+                        ?>
+                        <form method="post">
+                            <div class="panel-footer">
+                                <input type="submit" class="btn sub-btn" name="szerk" id="szerk" value="Szerkesztés">
+                                <input type="submit" class="btn del-btn" name="torles<?php echo $torolni; ?>" id="torles" value="Törlés">
+                            </div>
+                        </form>
                     </div><!--panel panel-pricing close-->
                 </div><!--col-md-4 col-sm-4 col-xs-12 text-center close-->
+                <?php
+                }
+            }
+            ?>
 
 
-                <div class="col-md-4 col-sm-4 col-xs-12 text-center">
-                    <div class="panel panel-pricing">
-                        <div class="panel-heading">
-                            <i class="fa"><img src="uploads/gyumolcsok.jpg" style="width: auto; height: 100px;" alt=""></i>
-                            <h3>Plan -2</h3>
-                        </div><!--panel-heading close-->
-                        <div class="panel-body text-center">
-                            <p class="p-title">Subscription Duration</p><!--p-title close-->
-                            <p class="p-time">7 days - 90 Mins</p><!--p-time close-->
-                        </div><!--panel-body text-center close-->
-                        <div class="panel-body text-center">
-                            <p class="p-price">₦ 150.00 </p><!--p-price close-->
-                            <p class="p-tax">All inclusive</p><!--p-tax close-->
-                        </div><!--panel-body text-center close-->
-                        <div class="panel-footer">
-                            <a class="btn sub-btn" href="#">Subscribe Now</a>
-                        </div>
-                    </div><!--panel panel-pricing close-->
-                </div><!--col-md-4 col-sm-4 col-xs-12 text-center close-->
+        </div><!--row close-->
 
-
-
-                <div class="col-md-4 col-sm-4 col-xs-12 text-center">
-                    <div class="panel panel-pricing">
-                        <div class="panel-heading">
-                            <i class="fa"><img src="uploads/banan_1.jpg" style="width: auto; height: 100px;" alt=""></i>
-                            <h3>Plan -3</h3>
-                        </div><!--panel-heading close-->
-                        <div class="panel-body text-center">
-                            <p class="p-title">Subscription Duration</p><!--p-title close-->
-                            <p class="p-time">30 days - 250 Mins</p><!--p-time close-->
-                        </div><!--panel-body text-center close-->
-                        <div class="panel-body text-center">
-                            <p class="p-price">₦ 400.00 </p><!--p-price close-->
-                            <p class="p-tax">All inclusive</p><!--p-tax close-->
-                        </div><!--panel-body text-center close-->
-                        <div class="panel-footer">
-                            <a class="btn sub-btn" href="#">Subscribe Now</a>
-                        </div>
-                    </div><!--panel panel-pricing close-->
-                </div><!--col-md-4 col-sm-4 col-xs-12 text-center close-->
-
-                
-            </div><!--row close-->
-            
         </div><!--container close-->
     </section><!--section close-->
 </body>

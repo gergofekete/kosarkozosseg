@@ -63,14 +63,25 @@ p.p-price {
 p.p-tax {
     font-size:18px;
     text-align: center;
-    text-transform: capitalize;
+
+}
+.del-btn{
+    background: #7a0f12;
+    color: #fff;
+    border-radius: 0px;
+    padding: 5px 18px;
 }
 .sub-btn {
     background: #3f9b3f;
-    color: #fff;border-radius: 0px;
-    padding: 5px 8px;
+    color: #fff;
+    border-radius: 0px;
+    padding: 5px 18px;
 }
 .sub-btn:hover, .sub-btn:focus {
+    color:#fff;
+    text-decoration:none;
+}
+.del-btn:hover, .del-btn:focus {
     color:#fff;
     text-decoration:none;
 }
