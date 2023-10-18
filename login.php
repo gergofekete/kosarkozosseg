@@ -19,21 +19,29 @@ if(isset($_POST['login'])) {
     $felhasznalo = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '0') OR (email = '$username' AND password = '$password' AND admine = '0')");
     $admin = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '1') OR (email = '$username' AND password = '$password' AND admine = '1')");
 
+    $felh_row = mysqli_fetch_assoc($felhasznalo);
+    $admin_row = mysqli_fetch_assoc($admin);
+
+    $felh_email = $felh_row['email'];
+    $admin_email = $admin_row['email'];
+
     $fcount = mysqli_num_rows($felhasznalo);
     $acount = mysqli_num_rows($admin);
 
     if($acount == 1) {
         $_SESSION['bejelentkezett'] = $username;
+        $_SESSION['bejelentkezett_email'] = $admin_email;
         $_SESSION['access'] = 1;
         $error = "";
-        header("location: ./adminkezdolap.php");
+        header("location: ./admin/adminkezdolap.php");
     }
     else if($fcount == 1) {
         $_SESSION['bejelentkezett'] = $username;
+        $_SESSION['bejelentkezett_email'] = $felh_email;
         $_SESSION['access'] = 0;
         $error = "";
         echo "SZÁZ FORINTNAK 50 A FELE";
-        header("location: ./kezdolap.php");
+        header("location: ./user/kezdolap.php");
     }
     else {
         $error = "Hibás felhasználónév vagy jelszó!";

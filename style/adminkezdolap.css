@@ -1,0 +1,75 @@
+.form-control{ /*Betuk*/
+    height: 40px;
+    box-shadow: none;
+    color: #181818;
+}
+.form-control:focus{ /*textbox keret*/
+    border-color: #002bc4;
+}
+.form-control, .btn{ /*textbox lekerekites*/
+    border-radius: 8px;
+}
+.signup-form{
+    /*width: 1370px;*/
+    margin-left: 5vw;
+    margin-top: 1vw;
+    padding: 0px;
+}
+.signup-form h2{
+    color: #000002;
+    margin: 0 0 15px;
+    position: relative;
+    text-align: left;
+}
+.signup-form h2:before{
+    left: -20px;
+}
+.signup-form h2:after{
+    right: -20px;
+}
+.signup-form .hint-text{
+    color: #7a7a7a;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.signup-form form{
+    color: #7a7a7a;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    margin-left: 200px;
+    margin-right: 200px;
+    background: #eee;
+    padding: 30px;
+}
+.signup-form .form-group{
+    margin-bottom: 10px;
+}
+.signup-form input[type="checkbox"]{
+    margin-top: 3px;
+}
+.signup-form .btn{
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 140px;
+    outline: none !important;
+}
+.signup-form .row div:first-child{
+    padding-right: 10px;
+}
+.signup-form .row div:last-child{
+    padding-left: 10px;
+}
+.signup-form a{
+    color: #070707;
+    text-decoration: underline;
+}
+.signup-form a:hover{
+    text-decoration: none;
+}
+.signup-form form a{
+    color: #3c7e3c;
+    text-decoration: none;
+}
+.signup-form form a:hover{
+    text-decoration: underline;
+}

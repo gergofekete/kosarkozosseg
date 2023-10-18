@@ -1,7 +1,7 @@
 <?php
-include('session.php');
+include('../session.php');
 access("FELHASZNALO");
-include('connect.php');
+include('../connect.php');
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $oldpassword = $_POST['oldpassword'];
@@ -9,7 +9,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $newpassword2 = $_POST['newpassword2'];
 
     $login_user = $_SESSION['bejelentkezett'];
-    $sql = mysqli_query($connect, "SELECT * FROM user WHERE username = '$login_user'");
+    $login_email = $_SESSION['bejelentkezett_email'];
+    echo $login_email;
+    $sql = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$login_user' OR email = '$login_email')");
     $row = mysqli_fetch_assoc($sql);
     if(md5($oldpassword) == $row['password']) {
         if($newpassword == $newpassword2) {
@@ -42,13 +44,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
-    @import url(style/navstyle.css);
+    @import url(../style/navstyle.css);
 </style>
 </head> 
 <body>
 <nav class="navbar navbar-default navbar-expand-lg navbar-light">
     <div class="navbar-header">
-        <a class="navbar-brand" href="kezdolap.php">Szekszárdi Kosár<b>Közösség</b></a>         
+        <a class="navbar-brand" href="../user/kezdolap.php">Szekszárdi Kosár<b>Közösség</b></a>         
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
             <span class="navbar-toggler-icon"></span>
             <span class="icon-bar"></span>
@@ -58,16 +60,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="eladas.php">Eladás</a></li>
-            <li><a href="hirdeteseim.php">Hirdetéseim</a></li>
-            <li><a href="vasarlas.php">Vásárlás</a></li>            
-            <li><a href="kosark.php">Mi az a kosárközösség?</a></li>
-            <li><a href="uzenet.php">Üzenetek</a></li>
-            <li class="active"><a href="profile.php">Profilom</a></li>
+            <li><a href="../user/eladas.php">Eladás</a></li>
+            <li><a href="../user/hirdeteseim.php">Hirdetéseim</a></li>
+            <li><a href="../user/vasarlas.php">Vásárlás</a></li>            
+            <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
+            <li><a href="../user/uzenet.php">Üzenetek</a></li>
+            <li class="active"><a href="../user/profile.php">Profilom</a></li>
             <!--<li><a href="rolunk.php">Rólunk</a></li>-->
         </ul>
         <ul class="nav navbar-form form-inline navbar-right ml-auto">
-            <li style="float: right;text-align:right; color: black;"><a href="logout.php">Kijelentkezés</a></li>
+            <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
         </ul>
     </div>
 </nav>
@@ -90,7 +92,7 @@ td, th {
         <th colspan="4">Profil adatok</th>
     </tr>
     <?php
-    $user = mysqli_query($connect, "SELECT * FROM user WHERE username = '$_SESSION[bejelentkezett]'");
+    $user = mysqli_query($connect, "SELECT * FROM user WHERE username = '$_SESSION[bejelentkezett]' OR email = '$_SESSION[bejelentkezett_email]'");
     while($row = mysqli_fetch_assoc($user)) {
         echo "
         <tr><td>Vezetéknév:</td><td>".$row['lname']."</td></tr>
