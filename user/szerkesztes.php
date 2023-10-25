@@ -1,11 +1,17 @@
 <?php
-include("../session.php");
+include('../session.php');
 access("FELHASZNALO");
-include("../connect.php");
+include('../connect.php');
 
-ob_start();
+$termek_id = $_GET['termekId'];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+$termek_adat = mysqli_query($connect, "SELECT * FROM termekek WHERE termek_id = $termek_id");
+$termek_row = mysqli_fetch_assoc($termek_adat);
+
+$kepek = mysqli_query($connect, "SELECT * FROM kepek WHERE kep_id = '$termek_row[kep_id]'");
+$kep_row = mysqli_fetch_assoc($kepek);
+
+if (isset($_POST['upload'])) {
     $login_user = $_SESSION['bejelentkezett'];
     $result = mysqli_query($connect, "SELECT user_id FROM user WHERE username = '$login_user'");
     $row = mysqli_fetch_assoc($result);
@@ -15,43 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mennyiseg = $_POST['mennyiseg'];
     $ar = $_POST['ar'];
     $leiras = $_POST['leiras'];
-    $feltoltes_date = date("Y-m-d h:i:s");
 
-    $file_name = $_FILES['feltoltes']['name'];
-    $destination = '../uploads/' . $file_name;
-    $extension = pathinfo($file_name, PATHINFO_EXTENSION);
-    $kep = $_FILES['feltoltes']['tmp_name'];
-
-    if (move_uploaded_file($kep, $destination)) {
-        $file_type = pathinfo($file_name, PATHINFO_EXTENSION);
-        $file_size = filesize($destination);
-        $upload_date = date('Y-m-d h:i:s');
-        $kep_leiras = "Kép a termékhez: $termek_neve";
-
-        $image_query = "INSERT INTO `kepek` (file_name, file_type, file_size, upload_date, kep_leiras)
-                        VALUES  ('$file_name', '$file_type', '$file_size', '$upload_date', '$kep_leiras')";
-
-        if (mysqli_query($connect, $image_query)) {
-            $_last_imageId = mysqli_insert_id($connect);
-
-            $query = "INSERT INTO `termekek` (kategoria_id, hirdeto_id, nev, leiras, mennyiseg, ar, kep_id, feltoltes_date, jovahagyva, torolve)
-                    VALUES ('$kategoria', '$id', '$termek_neve', '$leiras', '$mennyiseg', '$ar', '$_last_imageId', '$feltoltes_date', '0', '0')";
-
-            if (mysqli_query($connect, $query)) {
-                echo "A hirdetés sikeresen feladva!";
-            } else {
-                echo "Sikertelen hirdetés feladás!";
-            }
-        } else {
-            echo "Hiba történt a kép feltöltése során!";
-        }
-    } else {
-        echo "Hiba történt a kép feltöltése során!";
-    }
+    $modosit = mysqli_query($connect, "UPDATE termekek SET nev = '$termek_neve', kategoria_id = '$kategoria', mennyiseg = '$mennyiseg', ar = '$ar', leiras = '$leiras' WHERE termek_id = '$termek_id'");
+    header("Location: hirdeteseim.php");
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,13 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Eladás</title>
+    <title>Hirdetés szerkesztése</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway|Open+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Oswald:300,400" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
@@ -85,35 +58,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <span class="icon-bar"></span>
             </button>
         </div>
-        <div id="navbarCollapse" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="../user/eladas.php">Eladás</a></li>
-                <li><a href="../user/hirdeteseim.php">Hirdetéseim</a></li>
-                <li><a href="../user/vasarlas.php">Vásárlás</a></li>
-                <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
-                <li><a href="../user/uzenet.php">Üzenetek</a></li>
-                <li><a href="../user/profile.php">Profilom</a></li>
-                <!--<li><a href="rolunk.php">Rólunk</a></li>-->
-            </ul>
-            <ul class="nav navbar-form form-inline navbar-right ml-auto">
-                <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
-            </ul>
-        </div>
     </nav>
+
     <div class="signup-form">
         <form method="post" enctype="multipart/form-data">
-            <h2>Új hirdetés feladása</h2>
+            <h2>Hirdetés módosítása</h2>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-xs-6"><input type="text" class="form-control" name="termek_neve" placeholder="Termék neve" value="" required="required"></div>
+                    <div class="col-xs-6"><input type="text" class="form-control" name="termek_neve" placeholder="Termék neve" value="<?php echo $termek_row['nev']; ?>" required="required"></div>
                     <div class="col-xs-6">
                         <select class="form-control" id="kategoria" name="kategoria" required>
                             <option value="" disabled selected hidden>Kategória</option>
-                            <option value="1">Zöldség</option>
-                            <option value="2">Gyümölcs</option>
-                            <option value="3">Lekvárok</option>
-                            <option value="4">Borok</option>
-                            <option value="5">Gyümölcs levek</option>
+                            <option value="1" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 1) ? 'selected' : ''; ?>>Zöldség</option>
+                            <option value="2" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 2) ? 'selected' : ''; ?>>Gyümölcs</option>
+                            <option value="3" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 3) ? 'selected' : ''; ?>>Lekvárok</option>
+                            <option value="4" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 4) ? 'selected' : ''; ?>>Borok</option>
+                            <option value="5" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 5) ? 'selected' : ''; ?>>Gyümölcs levek</option>
                         </select>
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
@@ -155,31 +115,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-xs-6"><input type="text" class="form-control" name="mennyiseg" value="" placeholder="Mennyiség" required="required"></div>
-                    <div class="col-xs-6"><input type="text" class="form-control" name="ar" value="" placeholder="Ár" required="required"></div>
+                    <div class="col-xs-6"><input type="text" class="form-control" name="mennyiseg" value="<?php echo $termek_row['mennyiseg']; ?>" placeholder="Mennyiség" required="required"></div>
+                    <div class="col-xs-6"><input type="text" class="form-control" name="ar" value="<?php echo $termek_row['ar']; ?>" placeholder="Ár" required="required"></div>
                 </div>
             </div>
             <div class="form-group">
-                <textarea class="form-control" name="leiras" style="height: 150px;" placeholder="Leírás"></textarea>
+                <textarea class="form-control" name="leiras" style="height: 150px;" placeholder="Leírás"><?php echo $termek_row['leiras']; ?></textarea>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h4>Kép feltöltése: </h4>
+                        <h4>Feltöltött kép: </h4>
+                        <?php
+                        if (isset($kep_row['file_name'])) {
+                            echo '<img src="../uploads/' . $kep_row['file_name'] . '" style="width: auto; height: 150px;">';
+                        }
+                        ?>
                     </div>
-                    <input type="file" id="feltoltes" name="feltoltes" style="margin-top: 10px;" accept="image/*" value="<?php echo isset($file_name) ? `$file_name` : ''; ?>" />
-                    <?php
-                    if (isset($file_name)) {
-                        echo '<img src="uploads/' . $file_name . '" style="width: 50px; height: 50px;" alt="Feltöltött kép">';
-                    }
-                    ?>
+                    <script>
+                        function preview() {
+                            thumb.src = URL.createObjectURL(event.target.files[0]);
+                        }
+                    </script>
+                    <h4>Új kép feltölése: </h4>
+                    <input type="file" id="feltoltes" name="feltoltes" style="margin-top: 10px;" accept="image/*" value="" onchange="preview()" />
+                    <img id="thumb" src="" width="150px" height="auto" />
                 </div>
             </div>
             <div class="form-group">
-                <button class="btn btn-success btn-lg btn-block" type="submit" name="upload">Hirdetés feladása</button>
+                <button class="btn btn-success btn-lg btn-block" type="submit" name="upload">Hirdetés módosítása</button>
             </div>
         </form>
     </div>
+
 </body>
 
 </html>

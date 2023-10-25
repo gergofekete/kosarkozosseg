@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Vásárlás</title>
+    <title>Hirdetéseim</title>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Raleway|Open+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Oswald:300,400" rel="stylesheet">
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         function confirmDelete(termekId) {
-            var confirmed = confirm('Télleg?');
+            var confirmed = confirm('Biztosan törli a hirdetést?');
             if (confirmed) {
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '../torles.php', true);
@@ -94,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                     if (isset($termekek)) {
                         while ($row = mysqli_fetch_assoc($termekek)) {
                             $kepid = $row['kep_id'];
+                            $termek_id = $row['termek_id'];
                             $kepek = mysqli_query($connect, "SELECT * FROM kepek WHERE kep_id =  '$kepid'");
                             $kep_row = mysqli_fetch_assoc($kepek); ?>
                             <div class="col-md-4 col-sm-4 col-xs-12 text-center">
@@ -119,8 +120,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                                                     echo "liter: &nbsp;" . $row['ar'] . " Ft";
                                                                 } ?></p>
                                     </div><!--panel-body text-center close-->
+                                    <?php
+                                    $maxLength = 30;
+
+                                    if (isset($row['leiras'])) {
+                                        $leiras = $row['leiras'];
+                                        if (strlen($leiras) > $maxLength) {
+                                            $shortDescription = substr($leiras, 0, $maxLength);
+                                            $shortDescription .= '...';
+                                        } else {
+                                            $shortDescription = $leiras;
+                                        }
+                                    }
+                                    ?>
                                     <div class="panel-body text-center">
-                                        <p class="p-tax">Leírás: &nbsp; <?php echo $row['leiras']; ?></p>
+                                        <p class="p-tax">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
                                     </div><!--panel-body text-center close-->
 
                                     <?php
@@ -130,20 +144,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                         $termekID = $_POST['torles_termek_id'];
                                         $eltavolit = mysqli_query($connect, "UPDATE termekek SET torolve = '1' WHERE termek_id = '$termekID'");
                                     }
-
-                                    /*if (isset($_POST['torles' . $torolni])) {
-                                        echo "<script type='text/javascript'>";
-                                        echo "var confirmed = window.confirm('Télleg törlöd?');";
-                                        echo "if(confirmed) {";
-                                        echo "" . $eltavolit = mysqli_query($connect, "UPDATE termekek SET torolve = '1' WHERE termek_id = '$torolni'") . ";";
-                                        echo " window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname;";
-                                        echo "}";
-                                        echo "</script>";
-                                    }*/
                                     ?>
-                                    <form>
-                                        <div>
-                                            <input type="submit" class="btn sub-btn" name="szerk" id="szerk" value="Szerkesztés">
+                                    <form action="">
+                                        <div><a href="../user/szerkesztes.php?termekId=<?php echo $termek_id; ?>"><button type="button" class="btn sub-btn">Szerkesztés</button></a>
+                                            
                                         </div>
                                     </form>
 

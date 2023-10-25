@@ -1,6 +1,9 @@
 <?php
 include('../session.php');
 access("ADMIN");
+include('../connect.php');
+
+$termekek = mysqli_query($connect, "SELECT * FROM termekek ORDER BY feltoltes_date DESC");
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +13,7 @@ access("ADMIN");
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kezdőlap</title>
+    <title>Admin felület</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway|Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -18,75 +21,127 @@ access("ADMIN");
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script src="https://kit.fontawesome.com/cce7f5b7f8.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 
     <style>
         @import "../style/navstyle.css";
         @import "../style/adminkezdolap.css";
     </style>
+    <script>
+        $(document).ready(function() {
+            $(".btn-group .btn").click(function() {
+                var inputValue = $(this).find("input").val();
+                if (inputValue != '0') {
+                    var target = $('table tr[data-status="' + inputValue + '"]');
+                    $("table tbody tr").not(target).hide();
+                    target.fadeIn();
+                } else {
+                    $("table tbody tr").fadeIn();
+                }
+            });
+            // Changing the class of status label to support Bootstrap 4
+            var bs = $.fn.tooltip.Constructor.VERSION;
+            var str = bs.split(".");
+            if (str[0] == 4) {
+                $(".label").each(function() {
+                    var classStr = $(this).attr("class");
+                    var newClassStr = classStr.replace(/label/g, "badge");
+                    $(this).removeAttr("class").addClass(newClassStr);
+                });
+            }
+        });
+    </script>
 </head>
 
 <body>
     <nav class="navbar navbar-default navbar-expand-lg navbar-light">
         <div class="navbar-header">
             <a class="navbar-brand" href="../admin/adminkezdolap.php"><b>Admin</b> Felület</a>
-            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-                <span class="navbar-toggler-icon"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div id="navbarCollapse" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="../user/eladas.php">Eladás</a></li>
-                <li><a href="../user/hirdeteseim.php">Hirdetéseim</a></li>
-                <li><a href="../user/vasarlas.php">Vásárlás</a></li>
-                <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
-                <li><a href="../user/uzenet.php">Üzenetek</a></li>
-                <li><a href="../user/profile.php">Profilom</a></li>
-                <!--<li><a href="rolunk.php">Rólunk</a></li>-->
-            </ul>
             <ul class="nav navbar-form form-inline navbar-right ml-auto">
                 <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="signup-form">
-        <form method="post" enctype="multipart/form-data">
-            <h2>Új hirdetés feladása</h2>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-xs-6"><input type="text" class="form-control" name="termek_neve" placeholder="Termék neve" value=""></div>
-                    <div class="col-xs-6"><input type="text" class="form-control" name="hirdeto_nev" placeholder="Hirdető neve" value=""></div>
-                    <div class="col-xs-6">
-                        <select class="form-control" id="kategoria" name="kategoria">
-                            <option value="" disabled selected hidden>Kategória</option>
-                            <option value="1">Zöldség</option>
-                            <option value="2">Gyümölcs</option>
-                            <option value="3">Lekvárok</option>
-                            <option value="4">Borok</option>
-                            <option value="5">Gyümölcs levek</option>
-                        </select>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Feladott <b>hirdetések</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-info active">
+                            <input type="radio" name="status" value="0" checked="checked"> Mind
+                        </label>
+                        <label class="btn btn-success">
+                            <input type="radio" name="status" value="1"> Jóváhagyott
+                        </label>
+                        <label class="btn btn-warning">
+                            <input type="radio" name="status" value="2"> Jóváhagyásra vár
+                        </label>
+                        <label class="btn btn-danger">
+                            <input type="radio" name="status" value="3"> Jelentett
+                        </label>
                     </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-xs-6"><input type="text" class="form-control" name="mennyiseg" value="" placeholder="Mennyiség"></div>
-                    <div class="col-xs-6"><input type="text" class="form-control" name="ar" value="" placeholder="Ár"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-success btn-lg btn-block" type="submit" name="upload">Hirdetés feladása</button>
-            </div>
-        </form>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Hirdetés ID</th>
+                    <th>Termék</th>
+                    <th>Hirdető</th>
+                    <th>Feladás dátuma</th>
+                    <th>Státusz</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if (isset($termekek)) {
+                    while ($row = mysqli_fetch_assoc($termekek)) {
+                        $hirdeto = mysqli_query($connect, "SELECT lname, fname FROM user WHERE user_id = $row[hirdeto_id]");
+                        $hirdeto_row = mysqli_fetch_assoc($hirdeto);
+                        $hirdeto_name = $hirdeto_row['lname'] . ' ' . $hirdeto_row['fname']; 
+                        if ($row['jovahagyva'] == '0' && $row['jelentve'] == '0') { ?>
+                            <tr data-status="2">
+                                <td><?php echo $row['termek_id']; ?></td>
+                                <td><?php echo $row['nev']; ?></td>
+                                <td><?php echo $hirdeto_name . ', ID: ' . $row['hirdeto_id']; ?></td>
+                                <td><?php echo $row['feltoltes_date']; ?></td>
+                                <td><span class="label label-warning">Jóváhagyásra vár</span></td>
+                                <td><a href="#" class="btn btn-sm manage">Megtekintés</a></td>
+                            </tr>
+                        <?php
+                        } else if ($row['jovahagyva'] == '1' && $row['jelentve'] == '0') { ?>
+                            <tr data-status="1">
+                                <td><?php echo $row['termek_id']; ?></td>
+                                <td><?php echo $row['nev']; ?></td>
+                                <td><?php echo $hirdeto_name . ', ID: ' . $row['hirdeto_id']; ?></td>
+                                <td><?php echo $row['feltoltes_date']; ?></td>
+                                <td><span class="label label-success">Jóváhagyva</span></td>
+                                <td><a href="#" class="btn btn-sm manage">Megtekintés</a></td>
+                            </tr>
+                        <?php
+                        } else if ($row['jelentve'] == '1' &&($row['jovahagyva'] == '0' || $row['jovahagyva'] == '1')) { ?>
+                            <tr data-status="3">
+                                <td><?php echo $row['termek_id']; ?></td>
+                                <td><?php echo $row['nev']; ?></td>
+                                <td><?php echo $hirdeto_name . ', ID: ' . $row['hirdeto_id']; ?></td>
+                                <td><?php echo $row['feltoltes_date']; ?></td>
+                                <td><span class="label label-danger">Jelentett</span></td>
+                                <td><a href="#" class="btn btn-sm manage">Megtekintés</a></td>
+                            </tr>
+                <?php
+                        }
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 </body>
 

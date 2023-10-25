@@ -65,6 +65,7 @@ p.p-tax {
     text-align: center;
 
 }
+
 .del-btn{
     background: #7a0f12;
     color: #fff;
@@ -75,6 +76,7 @@ p.p-tax {
     background: #3f9b3f;
     color: #fff;
     border-radius: 0px;
+    margin-top: 10px;
     padding: 5px 18px;
 }
 .sub-btn:hover, .sub-btn:focus {
