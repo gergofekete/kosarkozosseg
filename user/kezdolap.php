@@ -1,5 +1,5 @@
 <?php
-include('session.php');
+include('../session.php');
 access("FELHASZNALO");
 ?>
 
@@ -18,14 +18,14 @@ access("FELHASZNALO");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
-    @import "style/navstyle.css";
-    @import "style/kezdolap.css";
+    @import "../style/navstyle.css";
+    @import "../style/kezdolap.css";
 </style>
 </head> 
 <body>
 <nav class="navbar navbar-default navbar-expand-lg navbar-light">
     <div class="navbar-header">
-        <a class="navbar-brand" href="kezdolap.php">Szekszárdi Kosár<b>Közösség</b></a>         
+        <a class="navbar-brand" href="../user/kezdolap.php">Szekszárdi Kosár<b>Közösség</b></a>         
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
             <span class="navbar-toggler-icon"></span>
             <span class="icon-bar"></span>
@@ -35,15 +35,16 @@ access("FELHASZNALO");
     </div>
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="eladas.php">Eladás</a></li>
-            <li><a href="vasarlas.php">Vásárlás</a></li>            
-            <li><a href="kosark.php">Mi az a kosárközösség?</a></li>
-            <li><a href="uzenet.php">Üzenetek</a></li>
-            <li><a href="profile.php">Profilom</a></li>
+            <li><a href="../user/eladas.php">Eladás</a></li>
+            <li><a href="../user/hirdeteseim.php">Hirdetéseim</a></li>
+            <li><a href="../user/vasarlas.php">Vásárlás</a></li>            
+            <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
+            <li><a href="../user/uzenet.php">Üzenetek</a></li>
+            <li><a href="../user/profile.php">Profilom</a></li>
             <!--<li><a href="rolunk.php">Rólunk</a></li>-->
         </ul>
         <ul class="nav navbar-form form-inline navbar-right ml-auto">
-            <li style="float: right;text-align:right; color: black;"><a href="logout.php">Kijelentkezés</a></li>
+            <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
         </ul>
     </div>
 </nav>
@@ -58,33 +59,33 @@ access("FELHASZNALO");
                 </ol>   
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img src="style/kezdolap1.jpg" alt="">
+                        <img src="../style/kezdolap1.jpg" alt="">
                         <div class="carousel-caption">
                             <h3>Mik azok a kosárközösségek?</h3>
                             <p>Olyan önkéntes alapon szerveződő csoportok, amelyekben a helyi élelmiszer termelők és vásárlók közvetlen kapcsolatba kerülnek.</p>
                             <p>Amenniyben többet szeretne megtudni a kosárközösségekről, kattintson a "Tovább olvasok" gombara!</p>
                             <div class="carousel-action">
-                                <a href="kosark.php" class="btn btn-primary">Tovább olvasok</a>
+                                <a href="../user/kosark.php" class="btn btn-primary">Tovább olvasok</a>
                             </div>
                         </div>
                     </div>  
                     <div class="item">
-                        <img src="style/gyumolcsok.jpg" alt="">
+                        <img src="../style/gyumolcsok.jpg" alt="">
                         <div class="carousel-caption">
                             <h3>Vásárolj helyi termelőktől!</h3>                            
                             <p>Így friss és egészséges élelmiszerekhez tudsz hozzájutni, támogatod a helyi termelőket és környezettudatosabb is.</p>
                             <div class="carousel-action">
-                                <a href="vasarlas.php" class="btn btn-primary">Vásárolok</a>
+                                <a href="../user/vasarlas.php" class="btn btn-primary">Vásárolok</a>
                             </div>
                         </div>
                     </div>
                     <div class="item">
-                        <img src="style/zoldsegek.png" alt="">
+                        <img src="../style/zoldsegek.png" alt="">
                         <div class="carousel-caption">
                             <h3>Add el saját terményeidet!</h3>
                             <p>Add el gyorsan és egyszerűen saját számodra fölösleges terményeidet.</p>
                             <div class="carousel-action">
-                                <a href="eladas.php" class="btn btn-primary">Eladás</a>
+                                <a href="../user/eladas.php" class="btn btn-primary">Eladás</a>
                             </div>
                         </div>
                     </div>  

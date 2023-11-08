@@ -1,3 +1,7 @@
+<?php
+    include('../session.php');
+    access("FELHASZNALO");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,13 +17,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
-    @import url(style/navstyle.css);
+    @import url(../style/navstyle.css);
 </style>
 </head> 
 <body>
 <nav class="navbar navbar-default navbar-expand-lg navbar-light">
     <div class="navbar-header">
-        <a class="navbar-brand" href="kezdolap.php">Szekszárdi Kosár<b>Közösség</b></a>         
+        <a class="navbar-brand" href="../user/kezdolap.php">Szekszárdi Kosár<b>Közösség</b></a>         
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
             <span class="navbar-toggler-icon"></span>
             <span class="icon-bar"></span>
@@ -29,15 +33,16 @@
     </div>
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="eladas.php">Eladás</a></li>
-            <li><a href="vasarlas.php">Vásárlás</a></li>            
-            <li class="active"><a href="kosark.php">Mi az a kosárközösség?</a></li>
-            <li><a href="uzenet.php">Üzenetek</a></li>
-            <li><a href="profile.php">Profilom</a></li>
+            <li><a href="../user/eladas.php">Eladás</a></li>
+            <li><a href="../user/hirdeteseim.php">Hirdetéseim</a></li>
+            <li><a href="../user/vasarlas.php">Vásárlás</a></li>            
+            <li class="active"><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
+            <li><a href="../user/uzenet.php">Üzenetek</a></li>
+            <li><a href="../user/profile.php">Profilom</a></li>
             <!--<li><a href="rolunk.php">Rólunk</a></li>-->
         </ul>
         <ul class="nav navbar-form form-inline navbar-right ml-auto">
-            <li style="float: right;text-align:right; color: black;"><a href="logout.php">Kijelentkezés</a></li>
+            <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
         </ul>
     </div>
 </nav>
@@ -67,7 +72,7 @@
             </p>
         </td>
         <td>
-            <img src="style/osszegyujtott.jpg" alt=""
+            <img src="../style/osszegyujtott.jpg" alt=""
             width="200">
         </td>
     </tr>
