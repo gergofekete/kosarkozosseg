@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
     $hirdeto = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_user')");
     $hirdeto_row = mysqli_fetch_assoc($hirdeto);
     $hirdeto_id = $hirdeto_row['user_id'];
-    $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id = '$hirdeto_id' AND jovahagyva = '0' AND torolve = '0' ORDER BY termek_id DESC");
+    $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id = '$hirdeto_id' AND jovahagyva = '1' AND torolve = '0' ORDER BY termek_id DESC");
 
     $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
     $kep_row = mysqli_fetch_assoc($kepek);
@@ -103,6 +103,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                         <i class="fa"><img src="../uploads/<?php echo $kep_row['file_name'] ?>" style="width: auto; height: 100px;" alt="" /></i>
                                         <h3>Termék neve: &nbsp; <?php echo $row['nev']; ?></h3>
                                     </div><!--panel-heading close-->
+                                    <?php
+                                    $maxLength = 30;
+
+                                    if (isset($row['leiras'])) {
+                                        $leiras = $row['leiras'];
+                                        if (strlen($leiras) > $maxLength) {
+                                            $shortDescription = substr($leiras, 0, $maxLength);
+                                            $shortDescription .= '...';
+                                        } else {
+                                            $shortDescription = $leiras;
+                                        }
+                                    }
+                                    ?>
                                     <div class="panel-body text-center">
                                         <p class="p-title">Elérhető mennyiség: &nbsp;
                                             <?php if ($row['kategoria_id'] == 1 || $row['kategoria_id'] == 2) {
@@ -119,22 +132,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                                                 } else {
                                                                     echo "liter: &nbsp;" . $row['ar'] . " Ft";
                                                                 } ?></p>
-                                    </div><!--panel-body text-center close-->
-                                    <?php
-                                    $maxLength = 30;
-
-                                    if (isset($row['leiras'])) {
-                                        $leiras = $row['leiras'];
-                                        if (strlen($leiras) > $maxLength) {
-                                            $shortDescription = substr($leiras, 0, $maxLength);
-                                            $shortDescription .= '...';
-                                        } else {
-                                            $shortDescription = $leiras;
-                                        }
-                                    }
-                                    ?>
-                                    <div class="panel-body text-center">
                                         <p class="p-tax">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
+                                    </div><!--panel-body text-center close-->
+                                    <div class="panel-body text-center">
+                                        <p class="p-tax">Státusz: &nbsp; <?php if ($row['jovahagyva'] == '0') {
+                                                                                echo "Jóváhagyásra vár";
+                                                                            } else if($row['jovahagyva'] == '1') {
+                                                                                echo "Jóváhagyva";
+                                                                            } ?></p>
                                     </div><!--panel-body text-center close-->
 
                                     <?php
@@ -146,8 +151,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                     }
                                     ?>
                                     <form action="">
-                                        <div><a href="../user/szerkesztes.php?termekId=<?php echo $termek_id; ?>"><button type="button" class="btn sub-btn">Szerkesztés</button></a>
-                                            
+                                        <div>
+                                            <a href="../user/szerkesztes.php?termekId=<?php echo $termek_id; ?>"><button type="button" class="btn sub-btn">Szerkesztés</button></a>
                                         </div>
                                     </form>
 

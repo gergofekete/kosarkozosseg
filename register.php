@@ -38,7 +38,7 @@ if(isset($_POST['register'])) {
         }
         if($jo == 1) {
             $sql = "INSERT INTO user (username, lname, fname, email, password) VALUES ('$username', '$lname', '$fname', '$email', '$password')";
-            header("location: kezdolap.php");
+            header("Location: ../kosarkozosseg/login.php");
             if($connect->query($sql)=== TRUE) {
                 echo "SIKER";
             }

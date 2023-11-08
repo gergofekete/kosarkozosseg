@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
     $login = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_user')");
     $login_row = mysqli_fetch_assoc($login);
     $login_id = $login_row['user_id'];
-    $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id != '$login_id' AND jovahagyva = '0' AND torolve = '0' ORDER BY termek_id DESC");
+    $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id != '$login_id' AND jovahagyva = '1' AND torolve = '0' ORDER BY termek_id DESC");
     $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
     $kep_row = mysqli_fetch_assoc($kepek);
 }
@@ -77,7 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                     <?php
                     if (isset($termekek)) {
                         while ($row = mysqli_fetch_assoc($termekek)) {
-                            $hirdeto = mysqli_query($connect, "SELECT lname, fname FROM user WHERE user_id = $row[hirdeto_id]");
+                            $hirdeto_id = $row['hirdeto_id'];
+                            $hirdeto = mysqli_query($connect, "SELECT lname, fname FROM user WHERE user_id = '$hirdeto_id'");
                             $hirdeto_row = mysqli_fetch_assoc($hirdeto);
                             $hirdeto_name = $hirdeto_row['lname'].' '.$hirdeto_row['fname']; 
                             $kepid = $row['kep_id'];
@@ -108,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                                                 } ?></p>
                                     </div><!--panel-body text-center close-->
                                     <?php
-                                    $maxLength = 30;
+                                    $maxLength = 25;
 
                                     if(isset($row['leiras'])) {
                                         $leiras = $row['leiras'];
@@ -123,9 +124,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                     <div class="panel-body text-center">
                                         <p class="p-tax">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
                                     </div><!--panel-body text-center close-->
+                                    <?php $termek_id = $row['termek_id']; ?>
                                     <form>
                                         <div>
-                                            <input type="submit" class="btn sub-btn" name="szerk" id="szerk" value="Vásárlás">
+                                            <a href="../user/veglegesit.php?termekId=<?php echo $termek_id; ?>"><input type="button" class="btn sub-btn" name="szerk" id="szerk" value="Vásárlás"></a>
                                         </div>
                                     </form>
                                 </div><!--panel panel-pricing close-->

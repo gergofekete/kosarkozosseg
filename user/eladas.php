@@ -5,6 +5,8 @@ include("../connect.php");
 
 ob_start();
 
+$kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login_user = $_SESSION['bejelentkezett'];
     $result = mysqli_query($connect, "SELECT user_id FROM user WHERE username = '$login_user'");
@@ -109,11 +111,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="col-xs-6">
                         <select class="form-control" id="kategoria" name="kategoria" required>
                             <option value="" disabled selected hidden>Kategória</option>
-                            <option value="1">Zöldség</option>
-                            <option value="2">Gyümölcs</option>
-                            <option value="3">Lekvárok</option>
-                            <option value="4">Borok</option>
-                            <option value="5">Gyümölcs levek</option>
+                            <?php
+                            while ($kat_row = mysqli_fetch_assoc($kat_all)) { ?>
+                                <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev'] ?></option>
+                            <?php
+                            }
+                            ?>
                         </select>
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
@@ -132,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     } else if (selectedCategory === "3" || selectedCategory === "4") {
                                         mennyisegPlaceholder += " (üveg)";
                                         arPlaceholder += " (Ft/üveg)";
-                                    } else if (selectedCategory === "5") {
+                                    } else if (selectedCategory === "5" || selectedCategory === "6") {
                                         mennyisegPlaceholder += " (liter)";
                                         arPlaceholder += " (Ft/liter)";
                                     }
@@ -162,17 +165,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group">
                 <textarea class="form-control" name="leiras" style="height: 150px;" placeholder="Leírás"></textarea>
             </div>
+            <script>
+                function preview() {
+                    thumb.src = URL.createObjectURL(event.target.files[0]);
+                }
+            </script>
             <div class="form-group">
                 <div class="row">
                     <div class="col-xs-6">
                         <h4>Kép feltöltése: </h4>
                     </div>
-                    <input type="file" id="feltoltes" name="feltoltes" style="margin-top: 10px;" accept="image/*" value="<?php echo isset($file_name) ? `$file_name` : ''; ?>" />
-                    <?php
-                    if (isset($file_name)) {
-                        echo '<img src="uploads/' . $file_name . '" style="width: 50px; height: 50px;" alt="Feltöltött kép">';
-                    }
-                    ?>
+                    <input type="file" id="feltoltes" onchange="preview()" name="feltoltes" style="margin-top: 10px;" accept="image/*" value="" />
+                    <img id="thumb" src="" width="150px"/>
                 </div>
             </div>
             <div class="form-group">

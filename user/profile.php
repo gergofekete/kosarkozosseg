@@ -13,10 +13,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo $login_email;
     $sql = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$login_user' OR email = '$login_email')");
     $row = mysqli_fetch_assoc($sql);
+    $username = $row['username'];
     if(md5($oldpassword) == $row['password']) {
         if($newpassword == $newpassword2) {
             $set_password = md5($newpassword);
-            $update = mysqli_query($connect, "UPDATE user SET password = '$set_password' WHERE username = '$login_user'");
+            $update = mysqli_query($connect, "UPDATE user SET password = '$set_password' WHERE username =  '$username'");
             echo "Sikeres jelszó változtatás!";
         }
         else {

@@ -50,7 +50,7 @@ if (isset($_POST['upload'])) {
 <body>
     <nav class="navbar navbar-default navbar-expand-lg navbar-light">
         <div class="navbar-header">
-            <a class="navbar-brand" href="../user/kezdolap.php">Szekszárdi Kosár<b>Közösség</b></a>
+            <a class="navbar-brand" href="../user/hirdeteseim.php">Szekszárdi Kosár<b>Közösség</b></a>
             <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
                 <span class="navbar-toggler-icon"></span>
                 <span class="icon-bar"></span>

@@ -3,7 +3,7 @@ include('../session.php');
 access("ADMIN");
 include('../connect.php');
 
-$termekek = mysqli_query($connect, "SELECT * FROM termekek ORDER BY feltoltes_date DESC");
+$termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE torolve = '0' ORDER BY feltoltes_date DESC");
 ?>
 
 <!DOCTYPE html>
@@ -58,10 +58,18 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek ORDER BY feltoltes_da
     <nav class="navbar navbar-default navbar-expand-lg navbar-light">
         <div class="navbar-header">
             <a class="navbar-brand" href="../admin/adminkezdolap.php"><b>Admin</b> Felület</a>
-            <ul class="nav navbar-form form-inline navbar-right ml-auto">
-                <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
-            </ul>
         </div>
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="">Admin jog elvétele</a></li>
+                    <li><a href="">Admin jog adás</a></li>
+                    <li><a href="">Üzenetek</a></li>
+                    <li><a href="">Profilom</a></li>
+                </ul>
+                <ul class="nav navbar-form form-inline navbar-right ml-auto">
+                    <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
+                </ul>
+            </div>
     </nav>
 
     <div class="table-wrapper">
@@ -103,6 +111,7 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek ORDER BY feltoltes_da
                 <?php
                 if (isset($termekek)) {
                     while ($row = mysqli_fetch_assoc($termekek)) {
+                        $hirdetes_id = $row['termek_id'];
                         $hirdeto = mysqli_query($connect, "SELECT lname, fname FROM user WHERE user_id = $row[hirdeto_id]");
                         $hirdeto_row = mysqli_fetch_assoc($hirdeto);
                         $hirdeto_name = $hirdeto_row['lname'] . ' ' . $hirdeto_row['fname']; 
@@ -113,7 +122,7 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek ORDER BY feltoltes_da
                                 <td><?php echo $hirdeto_name . ', ID: ' . $row['hirdeto_id']; ?></td>
                                 <td><?php echo $row['feltoltes_date']; ?></td>
                                 <td><span class="label label-warning">Jóváhagyásra vár</span></td>
-                                <td><a href="#" class="btn btn-sm manage">Megtekintés</a></td>
+                                <td><a href="../admin/hirdeteskezeles.php?hirdetesId=<?php echo $hirdetes_id; ?>"><button type="button" class="btn btn-sm manage">Megtekintés</button></a></td>
                             </tr>
                         <?php
                         } else if ($row['jovahagyva'] == '1' && $row['jelentve'] == '0') { ?>
@@ -123,7 +132,7 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek ORDER BY feltoltes_da
                                 <td><?php echo $hirdeto_name . ', ID: ' . $row['hirdeto_id']; ?></td>
                                 <td><?php echo $row['feltoltes_date']; ?></td>
                                 <td><span class="label label-success">Jóváhagyva</span></td>
-                                <td><a href="#" class="btn btn-sm manage">Megtekintés</a></td>
+                                <td><a href="../admin/hirdeteskezeles.php?hirdetesId=<?php echo $hirdetes_id; ?>"><button type="button" class="btn btn-sm manage">Megtekintés</button></a></td>
                             </tr>
                         <?php
                         } else if ($row['jelentve'] == '1' &&($row['jovahagyva'] == '0' || $row['jovahagyva'] == '1')) { ?>
@@ -133,7 +142,7 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek ORDER BY feltoltes_da
                                 <td><?php echo $hirdeto_name . ', ID: ' . $row['hirdeto_id']; ?></td>
                                 <td><?php echo $row['feltoltes_date']; ?></td>
                                 <td><span class="label label-danger">Jelentett</span></td>
-                                <td><a href="#" class="btn btn-sm manage">Megtekintés</a></td>
+                                <td><a href="../admin/hirdeteskezeles.php?hirdetesId=<?php echo $hirdetes_id; ?>"><button type="button" class="btn btn-sm manage">Megtekintés</button></a></td>
                             </tr>
                 <?php
                         }
