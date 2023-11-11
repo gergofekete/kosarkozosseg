@@ -3,15 +3,15 @@ include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $login_user = $_SESSION['bejelentkezett'];
-    $login = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_user')");
-    $login_row = mysqli_fetch_assoc($login);
-    $login_id = $login_row['user_id'];
-    $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id != '$login_id' AND jovahagyva = '1' AND torolve = '0' ORDER BY termek_id DESC");
-    $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
-    $kep_row = mysqli_fetch_assoc($kepek);
-}
+
+$login_user = $_SESSION['bejelentkezett'];
+$login = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_user')");
+$login_row = mysqli_fetch_assoc($login);
+$login_id = $login_row['user_id'];
+$termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id != '$login_id' AND jovahagyva = '1' AND torolve = '0' ORDER BY termek_id DESC");
+$kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
+$kep_row = mysqli_fetch_assoc($kepek);
+
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                             $hirdeto_id = $row['hirdeto_id'];
                             $hirdeto = mysqli_query($connect, "SELECT lname, fname FROM user WHERE user_id = '$hirdeto_id'");
                             $hirdeto_row = mysqli_fetch_assoc($hirdeto);
-                            $hirdeto_name = $hirdeto_row['lname'].' '.$hirdeto_row['fname']; 
+                            $hirdeto_name = $hirdeto_row['lname'] . ' ' . $hirdeto_row['fname'];
                             $kepid = $row['kep_id'];
                             $kepek = mysqli_query($connect, "SELECT * FROM kepek WHERE kep_id =  '$kepid'");
                             $kep_row = mysqli_fetch_assoc($kepek); ?>
@@ -111,9 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                     <?php
                                     $maxLength = 25;
 
-                                    if(isset($row['leiras'])) {
+                                    if (isset($row['leiras'])) {
                                         $leiras = $row['leiras'];
-                                        if(strlen($leiras) > $maxLength) {
+                                        if (strlen($leiras) > $maxLength) {
                                             $shortDescription = substr($leiras, 0, $maxLength);
                                             $shortDescription .= '...';
                                         } else {

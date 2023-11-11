@@ -9,11 +9,6 @@ if(isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    //$username = stripcslashes($username);
-    //$password = stripcslashes($password);
-    //$username = mysqli_real_escape_string($connect, $username);
-    //$password = mysqli_real_escape_string($connect, $password);
-
     $password = md5($password);
 
     $felhasznalo = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$username' AND password = '$password' AND admine = '0') OR (email = '$username' AND password = '$password' AND admine = '0')");
@@ -40,7 +35,6 @@ if(isset($_POST['login'])) {
         $_SESSION['bejelentkezett_email'] = $felh_email;
         $_SESSION['access'] = 0;
         $error = "";
-        echo "SZÁZ FORINTNAK 50 A FELE";
         header("location: ./user/kezdolap.php");
     }
     else {
@@ -77,9 +71,6 @@ if(isset($_POST['login'])) {
         </div>
         <div class="form-group">
             <button type="submit" name="login" class="btn btn-primary btn-lg btn-block">Bejelentkezés</button>
-        </div>
-        <div class="clearfix">
-            <a href="#" class="pull-left">Elfelejtett jelszó</a>
         </div>
         <div class="clearfix">
             <p class="pull-left" style="color: #000000;">Még nincs fiókom, &nbsp;</p><a href="register.php"> REGISZTRÁLOK!</a>

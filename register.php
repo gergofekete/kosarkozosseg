@@ -74,9 +74,6 @@ if(isset($_POST['register'])) {
             <input type="password" class="form-control" name="confirm_password" placeholder="Jelszó megerősítése" required="required">
         </div>
         <div class="form-group">
-            <label class="checkbox-inline"><input type="checkbox" required="required"> Elfogadom a <a href="#">Felhasználó feltételeket</a> </label>
-        </div>
-        <div class="form-group">
             <button type="submit" name="register" class="btn btn-success btn-lg btn-block">Regisztráció</button>
         </div>
     </form>

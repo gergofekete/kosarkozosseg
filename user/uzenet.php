@@ -2,6 +2,14 @@
 include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
+$login_user = $_SESSION['bejelentkezett'];
+$login_email = $_SESSION['bejelentkezett_email'];
+$user = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$login_user' OR email = '$login_email')");
+$user_row = mysqli_fetch_assoc($user);
+$user_id = $user_row['user_id'];
+
+$kuldo = mysqli_query($connect, "SELECT * FROM uzenetek WHERE felado_id = '$user_id' OR cimzett_id = '$user_id' ORDER BY kuldes_date");
+
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +33,9 @@ include("../connect.php");
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
   <script src="https://use.fontawesome.com/45e03a14ce.js"></script>
+
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <style>
     @import url(../style/navstyle.css);
     @import url(../style/uzenet.css);
@@ -50,7 +61,6 @@ include("../connect.php");
         <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
         <li class="active"><a href="../user/uzenet.php">Üzenetek</a></li>
         <li><a href="../user/profile.php">Profilom</a></li>
-        <!--<li><a href="rolunk.php">Rólunk</a></li>-->
       </ul>
       <ul class="nav navbar-form form-inline navbar-right ml-auto">
         <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
@@ -71,46 +81,66 @@ include("../connect.php");
                 </button>
               </div>
             </div>
-
             <div class="member_list">
               <ul class="list-unstyled">
-                <li class="left clearfix">
-                  <span class="chat-img pull-left">
-                    <img src="https://lh6.googleusercontent.com/-y-MY2satK-E/AAAAAAAAAAI/AAAAAAAAAJU/ER_hFddBheQ/photo.jpg" alt="User Avatar" class="img-circle">
-                  </span>
-                  <div class="chat-body clearfix">
-                    <div class="header_sec">
-                      <strong class="primary-font">Jack Sparrow</strong> <strong class="pull-right">
-                        09:45AM</strong>
-                    </div>
-                    <div class="contact_sec">
-                      <strong class="primary-font">(123) 123-456</strong> <span class="badge pull-right">3</span>
-                    </div>
-                  </div>
-                </li>
+                <?php
+                if (isset($kuldo)) {
+                  while ($row = mysqli_fetch_assoc($kuldo)) {
+
+                    $felado_id = $row['felado_id'];
+                    $felado_name = mysqli_query($connect, "SELECT username FROM user WHERE user_id = '$felado_id'");
+                    $felado_name_row = mysqli_fetch_assoc($felado_name);
+
+                    $cimzett_id = $row['cimzett_id'];
+                    $cimzett_name = mysqli_query($connect, "SELECT username FROM user WHERE user_id = '$cimzett_id'");
+                    $cimzett_name_row = mysqli_fetch_assoc($cimzett_name);
+
+                    $idobelyeg = strtotime($row['kuldes_date']);
+                    $date = date("Y-m-d", $idobelyeg);
+                ?>
+                    <li class="left clearfix">
+                      <div class="chat-body clearfix">
+                        <div class="header_sec">
+                          <strong class="primary-font"><?php if ($user_id == $row['felado_id']) {
+                                                          echo $cimzett_name_row['username'];
+                                                        } else if ($user_id == $row['cimzett_id']) {
+                                                          echo $felado_name_row['username'];
+                                                        } ?>
+                          </strong> <strong class="pull-right"><?php echo $date; ?></strong>
+                        </div>
+                        <div class="contact_sec">
+                          <strong class="primary-font"><?php echo $row['targy']; ?></strong> <span class="badge pull-right">3</span>
+                        </div>
+                      </div>
+                    </li>
+                <?php
+                  }
+                }
+                ?>
               </ul>
             </div>
           </div>
         </div>
-        <!--chat_sidebar-->
 
 
         <div class="col-sm-9 message_section">
           <div class="row">
-            <div class="new_message_head">
-            </div><!--new_message_head-->
-
             <div class="chat_area">
               <ul class="list-unstyled">
-                <li class="left clearfix">
-                  <span class="chat-img1 pull-left">
-                    <img src="https://lh6.googleusercontent.com/-y-MY2satK-E/AAAAAAAAAAI/AAAAAAAAAJU/ER_hFddBheQ/photo.jpg" alt="User Avatar" class="img-circle">
-                  </span>
-                  <div class="chat-body1 clearfix">
-                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-                    <div class="chat_time pull-right">09:40PM</div>
-                  </div>
-                </li>
+                <?php
+                $uzenet = mysqli_query($connect, "SELECT * FROM uzenetek WHERE (felado_id = '$user_id' OR cimzett_id = '$user_id') AND targy = 'Eper lekvár' ORDER BY kuldes_date");
+                if (isset($uzenet)) {
+                  while ($uzenet_row = mysqli_fetch_assoc($uzenet)) { ?>
+                    <li class="left clearfix">
+                      <div class="chat-body1 clearfix">
+                        <p><?php echo $uzenet_row['szoveg']; ?></p>
+                        <div class="chat_time pull-right"><?php echo $uzenet_row['kuldes_date']; ?></div>
+                      </div>
+                    </li>
+                <?php
+                  }
+                }
+                ?>
               </ul>
             </div><!--chat_area-->
 
