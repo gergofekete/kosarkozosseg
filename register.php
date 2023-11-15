@@ -11,7 +11,7 @@ include('connect.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <style>
-        @import url(style/register.css);
+        @import url(./style/register.css);
     </style>
 </head>
 <?php

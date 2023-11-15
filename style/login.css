@@ -1,8 +1,9 @@
 body {
     color: #fff;
     background: url("./logo.png") no-repeat;
-    background-position-x: center;
-    background-position-y: center;
+    height: 350px;
+    background-position-x: 75%;
+    background-position-y: 70px;
     background-size: contain;
     background-origin: content-box;
 }
