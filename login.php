@@ -5,6 +5,9 @@ session_start();
 session_destroy();
 session_start();
 
+$felh_email = "";
+$admin_email = "";
+
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -17,8 +20,13 @@ if (isset($_POST['login'])) {
     $felh_row = mysqli_fetch_assoc($felhasznalo);
     $admin_row = mysqli_fetch_assoc($admin);
 
-    $felh_email = $felh_row['email'];
-    $admin_email = $admin_row['email'];
+    if($felh_row !== null) {
+        $felh_email = $felh_row['email'];
+    }
+
+    if($admin_row !== null) {
+        $admin_email = $admin_row['email'];
+    }
 
     $fcount = mysqli_num_rows($felhasznalo);
     $acount = mysqli_num_rows($admin);
