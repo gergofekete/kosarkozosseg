@@ -95,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
                 <li><a href="../user/uzenet.php">Üzenetek</a></li>
                 <li><a href="../user/profile.php">Profilom</a></li>
-                <!--<li><a href="rolunk.php">Rólunk</a></li>-->
             </ul>
             <ul class="nav navbar-form form-inline navbar-right ml-auto">
                 <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
@@ -120,7 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </select>
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
-                                // Funkció a placeholder beállítására a kiválasztott kategória nevére
                                 function setMennyisegPlaceholder() {
                                     var selectedCategory = $("#kategoria").val();
                                     var mennyisegInput = document.querySelector('input[name="mennyiseg"]');
@@ -128,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     var mennyisegPlaceholder = "Mennyiség";
                                     var arPlaceholder = "Ár";
 
-                                    // A kategóriától függően módosítjuk a placeholder szöveget
                                     if (selectedCategory === "1" || selectedCategory === "2") {
                                         mennyisegPlaceholder += " (kg)";
                                         arPlaceholder += " (Ft/kg)";
@@ -138,16 +135,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     } else if (selectedCategory === "5" || selectedCategory === "6") {
                                         mennyisegPlaceholder += " (liter)";
                                         arPlaceholder += " (Ft/liter)";
+                                    } else if (selectedCategory === "7") {
+                                        mennyisegPlaceholder += " (db)";
+                                        arPlaceholder += " (Ft)";
                                     }
 
                                     mennyisegInput.setAttribute("placeholder", mennyisegPlaceholder);
                                     arInput.setAttribute("placeholder", arPlaceholder);
                                 }
 
-                                // Az eseménykezelő a kategória kiválasztás változására
                                 $("#kategoria").change(setMennyisegPlaceholder);
 
-                                // Alapértelmezett placeholder beállítása az oldal betöltésekor
                                 setMennyisegPlaceholder();
                             });
                         </script>
