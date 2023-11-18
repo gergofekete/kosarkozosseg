@@ -1,11 +1,11 @@
 body {
     color: #030303;
     font-family: 'Roboto', sans-serif;
-    height: 400px;
+    height: 500px;
     padding: 0px;
     background: url("../style/logo.png") no-repeat;
     background-position-x: 75%;
-    background-position-y: 160px;
+    background-position-y: 100px;
     background-size: contain;
     background-origin: content-box;
 }
@@ -23,7 +23,7 @@ body {
 }
 .signup-form{
     width: 400px;
-    margin-left: 25vw;
+    margin-left: 21vw;
     margin-top: 4vw;
     padding: 0px;
 }

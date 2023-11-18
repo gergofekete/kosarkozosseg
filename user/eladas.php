@@ -3,7 +3,6 @@ include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
 
-ob_start();
 
 $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
 

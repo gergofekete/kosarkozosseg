@@ -120,7 +120,7 @@ if (isset($_POST['upload'])) {
                 </div>
             </div>
             <div class="form-group">
-                <textarea class="form-control" name="leiras" style="height: 150px;" placeholder="Leírás"><?php echo $termek_row['leiras']; ?></textarea>
+                <textarea class="form-control" name="leiras" style="height: 100px;" placeholder="Leírás"><?php echo $termek_row['leiras']; ?></textarea>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -128,7 +128,7 @@ if (isset($_POST['upload'])) {
                         <h4>Feltöltött kép: </h4>
                         <?php
                         if (isset($kep_row['file_name'])) {
-                            echo '<img src="../uploads/' . $kep_row['file_name'] . '" style="width: auto; height: 150px;">';
+                            echo '<img src="../uploads/' . $kep_row['file_name'] . '" style="width: auto; height: 120px;">';
                         }
                         ?>
                     </div>
@@ -144,6 +144,8 @@ if (isset($_POST['upload'])) {
             </div>
             <div class="form-group">
                 <button class="btn btn-success btn-lg btn-block" type="submit" name="upload">Hirdetés módosítása</button>
+                <br>
+                <a href="../user/hirdeteseim.php"><button class="btn btn-lg btn-block" style="background-color: #b52424; color: white" type="button" name="back">Vissza</button></a>
             </div>
         </form>
     </div>
