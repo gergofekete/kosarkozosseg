@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="" disabled selected hidden>Kategória</option>
                             <?php
                             while ($kat_row = mysqli_fetch_assoc($kat_all)) { ?>
-                                <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev'] ?></option>
+                                <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev']; ?></option>
                             <?php
                             }
                             ?>

@@ -155,7 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                             <input type="hidden" id="torles_termek_id" name="torles_termek_id" value="<?php echo $torolni; ?>">
                                             <button type="button" class="btn del-btn" onclick="confirmDelete(<?php echo $torolni; ?>);">Törlés</button>
                                         </div>
-                                        <div></div>
                                     </form>
                                 </div>
                             </div>

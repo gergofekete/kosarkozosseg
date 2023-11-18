@@ -4,6 +4,7 @@ access("FELHASZNALO");
 include('../connect.php');
 
 $termek_id = $_GET['termekId'];
+$kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
 
 $termek_adat = mysqli_query($connect, "SELECT * FROM termekek WHERE termek_id = $termek_id");
 $termek_row = mysqli_fetch_assoc($termek_adat);
@@ -69,11 +70,19 @@ if (isset($_POST['upload'])) {
                     <div class="col-xs-6">
                         <select class="form-control" id="kategoria" name="kategoria" required>
                             <option value="" disabled selected hidden>Kategória</option>
-                            <option value="1" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 1) ? 'selected' : ''; ?>>Zöldség</option>
-                            <option value="2" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 2) ? 'selected' : ''; ?>>Gyümölcs</option>
-                            <option value="3" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 3) ? 'selected' : ''; ?>>Lekvárok</option>
-                            <option value="4" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 4) ? 'selected' : ''; ?>>Borok</option>
-                            <option value="5" <?php echo (isset($termek_row['kategoria_id']) && $termek_row['kategoria_id'] == 5) ? 'selected' : ''; ?>>Gyümölcs levek</option>
+                            <?php
+                            $selected = $termek_row['kategoria_id'];
+                            while ($kat_row = mysqli_fetch_assoc($kat_all)) {
+                                if ($kat_row['kategoria_id'] == $selected) { ?>
+                                    <option value="<?php echo $kat_row['kategoria_id']; ?>" selected><?php echo $kat_row['nev']; ?></option>
+                                <?php
+                                } else { ?>
+                                    <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev']; ?></option>
+                            <?php
+                                }
+                            }
+                            ?>
+
                         </select>
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
@@ -138,8 +147,9 @@ if (isset($_POST['upload'])) {
                         }
                     </script>
                     <h4>Új kép feltölése: </h4>
-                    <input type="file" id="feltoltes" name="feltoltes" style="margin-top: 10px;" accept="image/*" value="" onchange="preview()" />
-                    <img id="thumb" src="" width="150px" height="auto" />
+                    <p>Még nem elérhető!</p>
+                    <!-- <input type="file" id="feltoltes" name="feltoltes" style="margin-top: 10px;" accept="image/*" value="" onchange="preview()" />
+                    <img id="thumb" src="" width="150px" height="auto" /> -->
                 </div>
             </div>
             <div class="form-group">

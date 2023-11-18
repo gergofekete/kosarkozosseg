@@ -3,6 +3,7 @@ include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
 
+$kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
 
 $login_user = $_SESSION['bejelentkezett'];
 $login = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_user')");
@@ -12,6 +13,10 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id != '
 $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
 $kep_row = mysqli_fetch_assoc($kepek);
 
+
+if(isset($_POST['keres'])) {
+    echo "TÁNCOLJ CIGÁNY LÁNY";
+}
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +63,6 @@ $kep_row = mysqli_fetch_assoc($kepek);
                     <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
                     <li><a href="../user/uzenet.php">Üzenetek</a></li>
                     <li><a href="../user/profile.php">Profilom</a></li>
-                    <!--<li><a href="rolunk.php">Rólunk</a></li>-->
                 </ul>
                 <ul class="nav navbar-form form-inline navbar-right ml-auto">
                     <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
@@ -66,11 +70,39 @@ $kep_row = mysqli_fetch_assoc($kepek);
             </div>
         </nav>
         <div class="container-fluid">
-
-            <div class="plans col-md-12 col-sm-12 col-xs-12 text-center">
-                <h5>Hirdetett Termékek</h5>
+        </div>
+        <section class="search-sec">
+            <div class="container">
+                <form method="post" novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                    <input type="text" name="" class="form-control search-slt" placeholder="Termék neve">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                    <input type="text" name="" class="form-control search-slt" placeholder="">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                    <select class="form-control search-slt" name="kategoria" id="kategoria">
+                                        < <option value="" disabled selected hidden>Kategória</option>
+                                            <?php
+                                            while ($kat_row = mysqli_fetch_assoc($kat_all)) { ?>
+                                                <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev']; ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                    <button type="submit" name="keres" class="btn wrn-btn" style="background-color: #3f9b3f; color: white">Keresés</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div><!--container-fluid close-->
+        </section>
         <section>
             <div class="container">
                 <div class="row">
@@ -122,7 +154,7 @@ $kep_row = mysqli_fetch_assoc($kepek);
                                     }
                                     ?>
                                     <div class="panel-body text-center">
-                                        <p class="p-tax">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
+                                        <p class="p-info">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
                                     </div><!--panel-body text-center close-->
                                     <?php $termek_id = $row['termek_id']; ?>
                                     <form>
