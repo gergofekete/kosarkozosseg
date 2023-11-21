@@ -41,9 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                 xhr.open('POST', '../torles.php', true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.send('termekId=' + termekId);
-
-                location.reload();
             }
+            location.reload();
             return confirmed;
         }
     </script>

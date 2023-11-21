@@ -14,8 +14,30 @@ $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE k
 $kep_row = mysqli_fetch_assoc($kepek);
 
 
-if(isset($_POST['keres'])) {
-    echo "TÁNCOLJ CIGÁNY LÁNY";
+if (isset($_POST['keres'])) {
+    $termek_neve = $_POST['termek_neve'];
+    $termekek = mysqli_query($connect, "SELECT * FROM termekek
+                                            WHERE hirdeto_id != '$login_id'
+                                            AND jovahagyva = '1'
+                                            AND torolve = '0'
+                                            AND (nev LIKE '%$termek_neve%')
+                                            ORDER BY termek_id DESC");
+
+    $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
+    $kep_row = mysqli_fetch_assoc($kepek);
+
+    if (isset($_POST['kategoria']) && $_POST['kategoria'] != '0') {
+        $termek_kategoria = $_POST['kategoria'];
+        $termekek = mysqli_query($connect, "SELECT * FROM termekek
+                                            WHERE hirdeto_id != '$login_id'
+                                            AND jovahagyva = '1'
+                                            AND torolve = '0'
+                                            AND (nev LIKE '%$termek_neve%')
+                                            AND (kategoria_id = '$termek_kategoria')
+                                            ORDER BY termek_id DESC");
+        $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
+        $kep_row = mysqli_fetch_assoc($kepek);
+    }
 }
 ?>
 
@@ -78,15 +100,20 @@ if(isset($_POST['keres'])) {
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                    <input type="text" name="" class="form-control search-slt" placeholder="Termék neve">
+                                    <input type="text" name="termek_neve" class="form-control search-slt" placeholder="Termék neve" value="<?php if(isset($_POST['termek_neve'])) {echo $_POST['termek_neve'];} ?>">
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                     <select class="form-control search-slt" name="kategoria" id="kategoria">
-                                        < <option value="" disabled selected hidden>Kategória</option>
+                                        < <option value="0">Mind</option>
                                             <?php
-                                            while ($kat_row = mysqli_fetch_assoc($kat_all)) { ?>
-                                                <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev']; ?></option>
+                                            while ($kat_row = mysqli_fetch_assoc($kat_all)) {
+                                                if ($kat_row['kategoria_id'] == $_POST['kategoria']) { ?>
+                                                    <option value="<?php echo $kat_row['kategoria_id']; ?>" selected><?php echo $kat_row['nev']; ?></option>
+                                                <?php
+                                                } else { ?>
+                                                    <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev']; ?></option>
                                             <?php
+                                                }
                                             }
                                             ?>
                                     </select>
@@ -105,6 +132,9 @@ if(isset($_POST['keres'])) {
                 <div class="row">
                     <?php
                     if (isset($termekek)) {
+                        if(mysqli_num_rows($termekek) == '0') {
+                            echo "&nbsp &nbsp &nbsp Nincs a megadott keresési feltételeknek megfelelő termék";
+                        }
                         while ($row = mysqli_fetch_assoc($termekek)) {
                             $hirdeto_id = $row['hirdeto_id'];
                             $hirdeto = mysqli_query($connect, "SELECT lname, fname FROM user WHERE user_id = '$hirdeto_id'");
@@ -118,7 +148,7 @@ if(isset($_POST['keres'])) {
                                     <div class="panel-heading">
                                         <i class="fa"><img src="../uploads/<?php echo $kep_row['file_name'] ?>" style="width: auto; height: 100px;" alt="" /></i>
                                         <h3>Termék neve: &nbsp; <?php echo $row['nev']; ?></h3>
-                                    </div><!--panel-heading close-->
+                                    </div>
                                     <div class="panel-body text-center">
                                         <p class="p-title">Hirdető neve: &nbsp; <?php echo $hirdeto_name; ?></p>
                                         <p class="p-title">Elérhető mennyiség: &nbsp;
@@ -136,9 +166,9 @@ if(isset($_POST['keres'])) {
                                                                 } else {
                                                                     echo "liter: &nbsp;" . $row['ar'] . " Ft";
                                                                 } ?></p>
-                                    </div><!--panel-body text-center close-->
+                                    </div>
                                     <?php
-                                    $maxLength = 25;
+                                    $maxLength = 18;
 
                                     if (isset($row['leiras'])) {
                                         $leiras = $row['leiras'];
@@ -152,25 +182,25 @@ if(isset($_POST['keres'])) {
                                     ?>
                                     <div class="panel-body text-center">
                                         <p class="p-info">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
-                                    </div><!--panel-body text-center close-->
+                                    </div>
                                     <?php $termek_id = $row['termek_id']; ?>
                                     <form>
                                         <div>
                                             <a href="../user/veglegesit.php?termekId=<?php echo $termek_id; ?>"><input type="button" class="btn sub-btn" name="szerk" id="szerk" value="Vásárlás"></a>
                                         </div>
                                     </form>
-                                </div><!--panel panel-pricing close-->
-                            </div><!--col-md-4 col-sm-4 col-xs-12 text-center close-->
+                                </div>
+                            </div>
                     <?php
                         }
                     }
                     ?>
 
 
-                </div><!--row close-->
+                </div>
 
-            </div><!--container close-->
-        </section><!--section close-->
+            </div>
+        </section>
     </form>
 </body>
 
