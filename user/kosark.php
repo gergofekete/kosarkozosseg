@@ -27,7 +27,7 @@ access("FELHASZNALO");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <style>
         @import url(../style/navstyle.css);
-        @import url(../style/kezdolap.css);
+        @import url(../style/kosark.css);
     </style>
 </head>
 

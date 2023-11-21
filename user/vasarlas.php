@@ -81,9 +81,6 @@ if(isset($_POST['keres'])) {
                                     <input type="text" name="" class="form-control search-slt" placeholder="Termék neve">
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                    <input type="text" name="" class="form-control search-slt" placeholder="">
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                     <select class="form-control search-slt" name="kategoria" id="kategoria">
                                         < <option value="" disabled selected hidden>Kategória</option>
                                             <?php

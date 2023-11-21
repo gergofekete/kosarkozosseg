@@ -75,12 +75,6 @@ img {
     text-transform: UPPERCASE;
     font-weight: bold;
 }
-
-.checked,
-.price span {
-    color: #ff9f1a;
-}
-
 .product-title,
 .rating,
 .product-description,
@@ -127,9 +121,27 @@ img {
     transition: background .3s ease;
 }
 
+.back,
+.like {
+    background: #a30404;
+    padding: 1.2em 1.5em;
+    border: none;
+    text-transform: UPPERCASE;
+    font-weight: bold;
+    color: #fff;
+    -webkit-transition: background .3s ease;
+    transition: background .3s ease;
+}
+
 .add-to-cart:hover,
 .like:hover {
     background: #206911;
+    color: #fff;
+}
+
+.back:hover,
+.like:hover {
+    background: #691111;
     color: #fff;
 }
 

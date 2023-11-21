@@ -148,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vasarlas'])) {
                                     <h5 class="price"> Fizetendő összeg: &nbsp; <input type="text" name="fizetendo" readonly /> Ft</h5>
                                     <div class="action">
                                         <button class="add-to-cart btn btn-default" id="vasarlas" name="vasarlas" type="submit">vásárlás</button>
+                                        <a href="../user/vasarlas.php"><button type="button" class="back btn btn-default">Mégse</button></a>
                                     </div>
                         </div>
                     </div>
