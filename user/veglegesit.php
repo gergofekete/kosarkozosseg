@@ -3,7 +3,17 @@ include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
 
-$termek_id = $_GET['termekId'];
+$termek_id = $_POST['termekId'];
+
+
+$selectedQuantity = 0;
+
+$termek_adat = mysqli_query($connect, "SELECT * FROM termekek WHERE termek_id = '$termek_id'");
+$termek_row = mysqli_fetch_assoc($termek_adat);
+
+$kepek = mysqli_query($connect, "SELECT * FROM kepek WHERE kep_id = '$termek_row[kep_id]'");
+$kep_row = mysqli_fetch_assoc($kepek);
+
 
 $selectedQuantity = 0;
 
@@ -35,8 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vasarlas'])) {
                             Fizetendő összeg: $fizetendo Ft', '$vasarlas_date')");
         header("Location: ../user/vasarlas.php");
     } else {
-        echo "Nincs elegendő mennyiség.";
-        header("Location: ../user/veglegesit.php");
+        echo '<script>alert("Nincs elegendő mennyiség!")</script>';
     }
 }
 
@@ -97,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vasarlas'])) {
                         <div class="details col-md-6">
                             <h3 class="product-title"><?php echo $termek_row['nev']; ?></h3>
                             <p class="product-description"><?php echo $termek_row['leiras']; ?></p>
+                            <p class="product-description">Feltöltés dátuma: &nbsp <?php echo $termek_row['feltoltes_date']; ?></p>
                             <h5 class="price">Elérhető mennyiség: <?php if ($termek_row['kategoria_id'] == '1' || $termek_row['kategoria_id'] == '2') {
                                                                         echo $termek_row['mennyiseg'] . ' kg';
                                                                     } else if ($termek_row['kategoria_id'] == '3' || $termek_row['kategoria_id'] == '4') {
@@ -146,10 +156,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vasarlas'])) {
 
 
                                     <h5 class="price"> Fizetendő összeg: &nbsp; <input type="text" name="fizetendo" readonly /> Ft</h5>
-                                    <div class="action">
-                                        <button class="add-to-cart btn btn-default" id="vasarlas" name="vasarlas" type="submit">vásárlás</button>
-                                        <a href="../user/vasarlas.php"><button type="button" class="back btn btn-default">Mégse</button></a>
-                                    </div>
+                                    <form method="post">
+                                        <div class="action">
+                                            <input type="hidden" name="termekId" value="<?php echo $termek_id; ?>">
+                                            <input type="submit" class="add-to-cart btn btn-default" name="vasarlas" id="vasarlas" value="Vásárlás">
+                                            <a href="../user/vasarlas.php"><button type="button" class="back btn btn-default">Mégse</button></a>
+                                        </div>
+                                    </form>
                         </div>
                     </div>
                 </div>

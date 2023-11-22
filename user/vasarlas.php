@@ -100,7 +100,9 @@ if (isset($_POST['keres'])) {
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                    <input type="text" name="termek_neve" class="form-control search-slt" placeholder="Termék neve" value="<?php if(isset($_POST['termek_neve'])) {echo $_POST['termek_neve'];} ?>">
+                                    <input type="text" name="termek_neve" class="form-control search-slt" placeholder="Termék neve" value="<?php if (isset($_POST['termek_neve'])) {
+                                                                                                                                                echo $_POST['termek_neve'];
+                                                                                                                                            } ?>">
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                     <select class="form-control search-slt" name="kategoria" id="kategoria">
@@ -132,7 +134,7 @@ if (isset($_POST['keres'])) {
                 <div class="row">
                     <?php
                     if (isset($termekek)) {
-                        if(mysqli_num_rows($termekek) == '0') {
+                        if (mysqli_num_rows($termekek) == '0') {
                             echo "&nbsp &nbsp &nbsp Nincs a megadott keresési feltételeknek megfelelő termék";
                         }
                         while ($row = mysqli_fetch_assoc($termekek)) {
@@ -184,11 +186,12 @@ if (isset($_POST['keres'])) {
                                         <p class="p-info">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
                                     </div>
                                     <?php $termek_id = $row['termek_id']; ?>
-                                    <form>
-                                        <div>
-                                            <a href="../user/veglegesit.php?termekId=<?php echo $termek_id; ?>"><input type="button" class="btn sub-btn" name="szerk" id="szerk" value="Vásárlás"></a>
-                                        </div>
-                                    </form>
+                                    <div class="panel-body text-center">
+                                        <form method="post" action="../user/veglegesit.php">
+                                            <input type="hidden" name="termekId" value="<?php echo $termek_id; ?>">
+                                            <input type="submit" class="btn sub-btn" name="szerk" id="szerk" value="Megtekintés">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                     <?php
