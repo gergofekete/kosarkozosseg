@@ -3,16 +3,16 @@ include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $login_user = $_SESSION['bejelentkezett'];
-    $hirdeto = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_user')");
-    $hirdeto_row = mysqli_fetch_assoc($hirdeto);
-    $hirdeto_id = $hirdeto_row['user_id'];
-    $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id = '$hirdeto_id' AND torolve = '0' ORDER BY termek_id DESC");
+$login_user = $_SESSION['bejelentkezett'];
+$login_email = $_SESSION['bejelentkezett_email'];
+$hirdeto = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$login_user' OR email = '$login_email')");
+$hirdeto_row = mysqli_fetch_assoc($hirdeto);
+$hirdeto_id = $hirdeto_row['user_id'];
+$termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id = '$hirdeto_id' AND torolve = '0' ORDER BY termek_id DESC");
 
-    $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
-    $kep_row = mysqli_fetch_assoc($kepek);
-}
+$kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
+$kep_row = mysqli_fetch_assoc($kepek);
+
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                 <div class="panel panel-pricing">
                                     <div class="panel-heading">
                                         <i class="fa"><img src="../uploads/<?php echo $kep_row['file_name'] ?>" style="width: auto; height: 100px;" alt="" /></i>
-                                        <h3>Termék neve: &nbsp; <?php echo $row['nev']; ?></h3>
+                                        <h3><?php echo $row['nev']; ?></h3>
                                     </div>
                                     <?php
                                     $maxLength = 18;
@@ -127,15 +127,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                                                     echo "kg: &nbsp;" . $row['ar'] . " Ft";
                                                                 } else if ($row['kategoria_id'] == 3 || $row['kategoria_id'] == 4) {
                                                                     echo "üveg: &nbsp;" . $row['ar'] . " Ft";
-                                                                } else {
+                                                                } else if ($row['kategoria_id'] == 4 ||$row['kategoria_id'] == 5) {
                                                                     echo "liter: &nbsp;" . $row['ar'] . " Ft";
+                                                                } else {
+                                                                    echo "darab: &nbsp;" . $row['ar'] . " Ft";
                                                                 } ?></p>
                                         <p class="p-info">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
                                     </div>
                                     <div class="panel-body text-center">
                                         <p class="p-info">Státusz: &nbsp; <?php if ($row['jovahagyva'] == '0') {
                                                                                 echo "Jóváhagyásra vár";
-                                                                            } else if($row['jovahagyva'] == '1') {
+                                                                            } else if ($row['jovahagyva'] == '1') {
                                                                                 echo "Jóváhagyva";
                                                                             } ?></p>
                                     </div>

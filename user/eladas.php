@@ -8,7 +8,8 @@ $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login_user = $_SESSION['bejelentkezett'];
-    $result = mysqli_query($connect, "SELECT user_id FROM user WHERE username = '$login_user'");
+    $login_email = $_SESSION['bejelentkezett_email'];
+    $result = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_email')");
     $row = mysqli_fetch_assoc($result);
     $id = $row['user_id'];
     $termek_neve = $_POST['termek_neve'];
@@ -39,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     VALUES ('$kategoria', '$id', '$termek_neve', '$leiras', '$mennyiseg', '$ar', '$_last_imageId', '$feltoltes_date', '0', '0')";
 
             if (mysqli_query($connect, $query)) {
-                echo "A hirdetés sikeresen feladva!";
+                header("Location: ../user/hirdeteseim.php");
             } else {
                 echo "Sikertelen hirdetés feladás!";
             }

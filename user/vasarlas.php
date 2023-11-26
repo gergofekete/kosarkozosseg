@@ -6,7 +6,8 @@ include("../connect.php");
 $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
 
 $login_user = $_SESSION['bejelentkezett'];
-$login = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_user')");
+$login_email = $_SESSION['bejelentkezett_email'];
+$login = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_email')");
 $login_row = mysqli_fetch_assoc($login);
 $login_id = $login_row['user_id'];
 $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id != '$login_id' AND jovahagyva = '1' AND torolve = '0' ORDER BY termek_id DESC");
@@ -149,7 +150,7 @@ if (isset($_POST['keres'])) {
                                 <div class="panel panel-pricing">
                                     <div class="panel-heading">
                                         <i class="fa"><img src="../uploads/<?php echo $kep_row['file_name'] ?>" style="width: auto; height: 100px;" alt="" /></i>
-                                        <h3>Termék neve: &nbsp; <?php echo $row['nev']; ?></h3>
+                                        <h3><?php echo $row['nev']; ?></h3>
                                     </div>
                                     <div class="panel-body text-center">
                                         <p class="p-title">Hirdető neve: &nbsp; <?php echo $hirdeto_name; ?></p>
