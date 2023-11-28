@@ -76,30 +76,3 @@ p.p-info {
     color:#fff;
     text-decoration:none;
 }
-.search-sec{
-    width: 74%;
-    margin: 0 auto;
-    background: #c4d5bb;
-    padding: 2rem;
-    margin-bottom: 20px;
-}
-.search-slt{
-    display: block;
-    width: 100%;
-    font-size: 1.5rem;
-    line-height: 2;
-    color: #55595c;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    height: calc(4rem + 2px) !important;
-    border-radius:0;
-}
-.wrn-btn{
-    width: 100%;
-    font-size: 16px;
-    font-weight: 400;
-    text-transform: capitalize;
-     height: calc(4rem + 2px) !important;
-     border-radius:0;
-}

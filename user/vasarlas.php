@@ -63,6 +63,7 @@ if (isset($_POST['keres'])) {
     <style>
         @import url(../style/navstyle.css);
         @import url(../style/hirdeteseim.css);
+        @import url(../style/searchbar.css);
     </style>
 </head>
 
