@@ -61,7 +61,7 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE torolve = '0' O
         </div>
         <div id="navbarCollapse" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="">Felhasználók eltávolítása</a></li>
+                    <li><a href="../admin/felh_eltav.php">Felhasználók eltávolítása</a></li>
                     <li><a href="">Üzenetek</a></li>
                     <li><a href="../admin/adminprofil.php">Profilom</a></li>
                 </ul>
