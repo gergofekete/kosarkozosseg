@@ -76,7 +76,7 @@ $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
         </div>
     </header>
 
-    <!--Gallery-->
+
     <section id="photos">
         <h1 class="mb-5 text-center">KÖZÖSSÉGÜNK CÉLJA</h1>
         <div class="container">
@@ -85,31 +85,29 @@ $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
                     <img class="card-img-top" src="../style/kosar_atad.png" alt="">
                 </div>
                 <div class="col-lg-4 col-sm-6 portfolio-item">
-                    <img class="card-img-top" src="" alt="">
+                    <img class="card-img-top" src="../style/kosar_atad.png" alt="">
                 </div>
                 <div class="col-lg-4 col-sm-6 portfolio-item">
-                    <img class="card-img-top" src="" alt="">
+                    <img class="card-img-top" src="../style/kosar_atad.png" alt="">
                 </div>
                 <div class="col-lg-4 col-sm-6 portfolio-item">
 
-                    <img class="card-img-top" src="" alt="">
+                    <img class="card-img-top" src="../style/kosar_atad.png" alt="">
                     <a href="#">
-                        <h2>Shushi rolls</h2>
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6 portfolio-item">
 
-                    <img class="card-img-top" src="" alt="">
+                    <img class="card-img-bottom" src="../style/kosar_atad.png" alt="">
                     <a href="#">
-                        <h2>Spaghetti</h2>
+
                     </a>
 
                 </div>
                 <div class="col-lg-4 col-sm-6 portfolio-item">
 
-                    <img class="card-img-top" src="" alt="">
+                    <img class="card-img-top" src="../style/kosar_atad.png" alt="">
                     <a href="#">
-                        <h2>Pasta</h2>
                     </a>
 
                 </div>
@@ -117,30 +115,28 @@ $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
             </div>
         </div>
     </section>
-    <!--gallery end-->
 
-    <!-- Testimonials -->
     <section class="testimonials text-center mybg">
         <div class="container">
             <h2 class="mb-5">Kiemelt termelőink</h2>
             <div class="row">
                 <div class="col-lg-4">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3" src="../style/profil1.png" alt="">
+                        <img class="img-fluid rounded-circle mb-3" src="../style/profile.png" alt="">
                         <h5>F. Zsófia</h5>
                         <p class="font-weight-dark mb-0">"Nézd a kézmműves termékeimet."</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3" src="" alt="">
+                        <img class="img-fluid rounded-circle mb-3" src="../style/profile.png" alt="">
                         <h5>E. Réka</h5>
                         <p class="font-weight-dark mb-0">"Kostold meg a házi finomságaimat."</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3" src="../style/profil3.png" alt="">
+                        <img class="img-fluid rounded-circle mb-3" src="../style/profile.png" alt="">
                         <h5>F. Gergő</h5>
                         <p class="font-weight-dark mb-0">"Az oldal alkotója"</p>
                     </div>
@@ -148,55 +144,40 @@ $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
             </div>
         </div>
     </section>
-    <!-- Footer -->
+
     <section id="footer">
         <div class="container">
             <div class="row text-xs-center text-sm-left text-md-left mb-5">
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     <h5 class="txt-upper">Rólunk</h5>
-                    <p class="myfont-color text-justify">BLA BLA BLA</p>
+                    <p class="myfont-color text-justify">Kosárközösségünk éééé. óta működik, folyamatosan bővül a tagok száma.</p>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3 myfont-color">
-                    <h5 class="txt-upper"></h5>
-                    <p> LUNCH:
-                        <br> Mon-Fri: 11:30 AM - 2:30 PM
-                        <br>
-                        <br> DINNER:
-
-                        <br> Mon-Thu: 4:45 PM - 10:30 PM
-                        <br> Fri: 4:45 PM - 11 PM
-                        <br> Sat: 4:30 PM - 11 PM
-                        <br> Sun: 5:00 PM - 10:30 PM
-                    <p>
-
-                </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
                     <h5 class="txt-upper">Termék kategóriák</h5>
                     <ul class="list-unstyled quick-links">
-                        <?php if(isset($kat_all)) {
+                        <?php if (isset($kat_all)) {
                             while ($kat_row = mysqli_fetch_assoc($kat_all)) { ?>
-                            <li><a href=""><?php echo $kat_row['nev'] ?></a></li>
+                                <li><a href=""><?php echo $kat_row['nev'] ?></a></li>
 
                         <?php    }
                         } ?>
                     </ul>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <h5 class="txt-upper">Hivatkozások</h5>
+                <h5 class="txt-upper">Hivatkozások</h5>
                     <ul class="list-unstyled quick-links">
-                        <li><a href="javascript:void();">Eladás</a></li>
-                        <li><a href="javascript:void();">Hirdetéseim</a></li>
-                        <li><a href="javascript:void();">Vásárlás</a></li>
-                        <li><a href="javascript:void();">Mi az a kosárközösség?</a></li>
-                        <li><a href="javascript:void();">Üzenetek</a></li>
-                        <li><a href="javascript:void();">Profilom</a></li>
+                        <li><a href="">Eladás</a></li>
+                        <li><a href="">Hirdetéseim</a></li>
+                        <li><a href="">Vásárlás</a></li>
+                        <li><a href="">Mi az a kosárközösség?</a></li>
+                        <li><a href="">Üzenetek</a></li>
+                        <li><a href="">Profilom</a></li>
 
                     </ul>
                 </div>
             </div>
         </div>
     </section>
-    <!--Footer -->
 
     <div class="scroll-top-wrapper ">
         <span class="scroll-top-inner">

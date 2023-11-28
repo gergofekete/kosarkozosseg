@@ -47,9 +47,6 @@ header.masthead h1 {
     padding-left: 0;
 }
 
-
-/*---gallery---*/
-
 #photos {
     padding-top: 5rem;
     padding-bottom: 5rem;
@@ -97,12 +94,10 @@ img.img-fluid.rounded-circle.mb-3 {
     height:400px;
 }
 
-/*-----parallax-----*/
-
 .mybg {
     position: relative;
     background: linear-gradient(to right, rgba(255, 255, 255, 0.7686274509803922), rgba(255, 255, 255, 0.7686274509803922)), url(../style/barackos_hatter.png) no-repeat center center fixed;
-    background-size: cover;
+    background-size: auto;
 }
 
 .call-to-action {
@@ -168,9 +163,6 @@ footer.footer {
     color: #979797 !important;
 }
 
-
-/*----testimonials----*/
-
 .testimonials {
     padding-top: 7rem;
     padding-bottom: 7rem
@@ -184,9 +176,6 @@ footer.footer {
     max-width: 12rem;
     box-shadow: 0 5px 5px 0 #adb5bd
 }
-
-
-/* Footer */
 
 section {
     padding: 60px 0 18px;
@@ -277,9 +266,6 @@ section .section-title {
         margin-bottom: 10px;
     }
 }
-
-
-/*-----scroll-top-----*/
 
 .scroll-top-wrapper {
     position: fixed;

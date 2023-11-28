@@ -40,7 +40,7 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE torolve = '0' O
                     $("table tbody tr").fadeIn();
                 }
             });
-            // Changing the class of status label to support Bootstrap 4
+
             var bs = $.fn.tooltip.Constructor.VERSION;
             var str = bs.split(".");
             if (str[0] == 4) {
@@ -89,9 +89,9 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE torolve = '0' O
                         <label class="btn btn-warning">
                             <input type="radio" name="status" value="2"> Jóváhagyásra vár
                         </label>
-                        <label class="btn btn-danger">
+                        <!-- <label class="btn btn-danger">
                             <input type="radio" name="status" value="3"> Jelentett
-                        </label>
+                        </label> -->
                     </div>
                 </div>
             </div>
@@ -104,7 +104,6 @@ $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE torolve = '0' O
                     <th>Hirdető</th>
                     <th>Feladás dátuma</th>
                     <th>Státusz</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>

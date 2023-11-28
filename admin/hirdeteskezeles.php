@@ -69,15 +69,15 @@ $kat_name = $kat_row['nev'];
                         <h3>
                             Termék neve: &nbsp; <?php echo $hirdetes_row['nev']; ?>
                         </h3>
-                        <br></br>
+                        <br>
                         <h4>
-                            Feladó: &nbsp; <?php echo $felado_name; ?>
+                            Leírás: &nbsp; <?php echo $hirdetes_row['leiras']; ?>
                         </h4>
-                        <br></br>
+                        <br>
                         <h4>
                             Kategória: &nbsp; <?php echo $kat_name ?>
                         </h4>
-                        <br></br>
+                        <br>
                         <h4>
                             Mennyiség: &nbsp; <?php if ($hirdetes_row['kategoria_id'] == '1' || $hirdetes_row['kategoria_id'] == '2') {
                                                     echo $hirdetes_row['mennyiseg'] . ' kg';
@@ -86,10 +86,10 @@ $kat_name = $kat_row['nev'];
                                                 } else if ($hirdetes_row['kategoria_id'] == '5' || $hirdetes_row['kategoria_id'] == '6') {
                                                     echo $hirdetes_row['mennyiseg'] . ' liter';
                                                 } else {
-                                                    echo $hirdetes_row['mennyiseg'];
+                                                    echo $hirdetes_row['mennyiseg'] . ' db';
                                                 } ?>
                         </h4>
-                        <br></br>
+                        <br>
                         <h4>
                             Ár: &nbsp; <?php if ($hirdetes_row['kategoria_id'] == '1' || $hirdetes_row['kategoria_id'] == '2') {
                                             echo $hirdetes_row['ar'] . ' Ft/kg';
@@ -98,10 +98,14 @@ $kat_name = $kat_row['nev'];
                                         } else if ($hirdetes_row['kategoria_id'] == '5' || $hirdetes_row['kategoria_id'] == '6') {
                                             echo $hirdetes_row['ar'] . ' Ft/liter';
                                         } else {
-                                            echo $hirdetes_row['ar'];
+                                            echo $hirdetes_row['ar'] . ' Ft/db';
                                         } ?>
                         </h4>
-                        <br></br>
+                        <br>
+                        <h4>
+                            Eladó: &nbsp; <?php echo $felado_name; ?>
+                        </h4>
+                        <br>
                     </div>
                 </div>
             </div>
