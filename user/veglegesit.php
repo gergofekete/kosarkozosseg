@@ -32,15 +32,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vasarlas'])) {
     $user_id = $user_row['user_id'];
     $username = $user_row['username'];
     $cimzett_id = $termek_row['hirdeto_id'];
+    $termek_id = $termek_row['termek_id'];
     $termek_nev = $termek_row['nev'];
     $fizetendo = $_POST['fizetendo'];
-    $vasarlas_date = date("Y-m-d h:i:s");
+    $vasarlas_date = date("Y-m-d H:i:s");
 
     $maradek = $termek_row['mennyiseg'] - $db;
     if ($maradek >= 0) {
         $sql = mysqli_query($connect, "UPDATE termekek SET mennyiseg = '$maradek' WHERE termek_id = '$termek_id'");
-        $uzenet = mysqli_query($connect, "INSERT INTO uzenetek (felado_id, cimzett_id, targy, szoveg, kuldes_date)
-                            VALUES ('$user_id', '$cimzett_id', '$termek_nev', 'Tájékoztatjuk, hogy rendelése érkezett $username-tól/től.
+        $uzenet = mysqli_query($connect, "INSERT INTO uzenetek (felado_id, cimzett_id, termek_id, targy, szoveg, kuldes_date)
+                            VALUES ('$user_id', '$cimzett_id', '$termek_id', '$termek_nev', 'Tájékoztatjuk, hogy rendelése érkezett $username-tól/től.
                             Rendelés tartalma: $termek_nev, rendelt mennyiség: $db
                             Fizetendő összeg: $fizetendo Ft', '$vasarlas_date')");
         header("Location: ../user/vasarlas.php");
