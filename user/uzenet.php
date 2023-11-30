@@ -18,6 +18,7 @@ $uzeneteim = mysqli_query($connect, "SELECT u1.* FROM uzenetek u1
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     if (isset($_POST['felado_id'], $_POST['cimzett_id'], $_POST['termek_id'], $_POST['message'])) {
         $felado_id = $_POST['felado_id'];
         $cimzett_id = $_POST['cimzett_id'];
@@ -35,18 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $kuldes_date = date("Y-m-d H:i:s");
 
-            if($felado_id == $me_id) {
+            if ($felado_id == $me_id) {
                 $send_message = mysqli_query($connect, "INSERT INTO uzenetek (felado_id, cimzett_id, termek_id, targy, szoveg, kuldes_date)
                                             VALUES ('$me_id', '$cimzett_id', '$termek_id', '$termek_nev', '$szoveg', '$kuldes_date')");
-            } else if($cimzett_id == $me_id) {
+            } else if ($cimzett_id == $me_id) {
                 $send_message = mysqli_query($connect, "INSERT INTO uzenetek (felado_id, cimzett_id, termek_id, targy, szoveg, kuldes_date)
                                             VALUES ('$me_id', '$felado_id', '$termek_id', '$termek_nev', '$szoveg', '$kuldes_date')");
             }
             header("Reload:0");
         }
-    } else {
-        http_response_code(400);
-        echo "Hiányzó adatok a kérésben.";
     }
 }
 
@@ -74,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="../script.js"></script>
 
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+
     <style>
         @import url(../style/navstyle.css);
         @import url(../style/uzenet2.css);
@@ -115,11 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="headind_srch">
                         <div class="recent_heading">
                             <h4>Üzenetek</h4>
-                        </div>
-                        <div class="srch_bar">
-                            <div class="stylish-input-group">
-                                <input type="text" style="font-size: 16px;" placeholder="Felhasználónév"><button style="font-size: 14px;" type="submit">Keresés</button>
-                            </div>
                         </div>
                     </div>
                     <div class="inbox_chat">
@@ -231,7 +224,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 }
                             } else {
                                 http_response_code(400);
-                                echo "Hiányzó adatok a kérésben.";
                             }
                         }
                         ?>

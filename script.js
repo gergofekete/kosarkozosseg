@@ -35,3 +35,8 @@ function listItemClick(felado_id, cimzett_id, termek_id) {
         }
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    var msgHistory = document.querySelector(".msg_history");
+    msgHistory.scrollTop = msgHistory.scrollHeight;
+});
