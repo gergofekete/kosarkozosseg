@@ -3,7 +3,19 @@ include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
 
-$termek_id = $_GET['termekId'];
+$termek_id = $_POST['termekId'];
+
+
+$selectedQuantity = 0;
+
+$termek_adat = mysqli_query($connect, "SELECT * FROM termekek WHERE termek_id = '$termek_id'");
+$termek_row = mysqli_fetch_assoc($termek_adat);
+
+$kepek = mysqli_query($connect, "SELECT * FROM kepek WHERE kep_id = '$termek_row[kep_id]'");
+$kep_row = mysqli_fetch_assoc($kepek);
+
+
+$selectedQuantity = 0;
 
 $termek_adat = mysqli_query($connect, "SELECT * FROM termekek WHERE termek_id = $termek_id");
 $termek_row = mysqli_fetch_assoc($termek_adat);
@@ -11,11 +23,33 @@ $termek_row = mysqli_fetch_assoc($termek_adat);
 $kepek = mysqli_query($connect, "SELECT * FROM kepek WHERE kep_id = '$termek_row[kep_id]'");
 $kep_row = mysqli_fetch_assoc($kepek);
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if(isset($db)) {
-        echo $db;
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vasarlas'])) {
+    $db = $_POST['selectedQuantity'];
+    $login_user = $_SESSION['bejelentkezett'];
+    $login_email = $_SESSION['bejelentkezett_email'];
+    $user = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$login_user' OR email = '$login_email')");
+    $user_row = mysqli_fetch_assoc($user);
+    $user_id = $user_row['user_id'];
+    $username = $user_row['username'];
+    $cimzett_id = $termek_row['hirdeto_id'];
+    $termek_id = $termek_row['termek_id'];
+    $termek_nev = $termek_row['nev'];
+    $fizetendo = $_POST['fizetendo'];
+    $vasarlas_date = date("Y-m-d H:i:s");
+
+    $maradek = $termek_row['mennyiseg'] - $db;
+    if ($maradek >= 0) {
+        $sql = mysqli_query($connect, "UPDATE termekek SET mennyiseg = '$maradek' WHERE termek_id = '$termek_id'");
+        $uzenet = mysqli_query($connect, "INSERT INTO uzenetek (felado_id, cimzett_id, termek_id, targy, szoveg, kuldes_date)
+                            VALUES ('$user_id', '$cimzett_id', '$termek_id', '$termek_nev', 'Tájékoztatjuk, hogy rendelése érkezett $username-tól/től.
+                            Rendelés tartalma: $termek_nev, rendelt mennyiség: $db
+                            Fizetendő összeg: $fizetendo Ft', '$vasarlas_date')");
+        header("Location: ../user/vasarlas.php");
+    } else {
+        echo '<script>alert("Nincs elegendő mennyiség!")</script>';
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -73,6 +107,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="details col-md-6">
                             <h3 class="product-title"><?php echo $termek_row['nev']; ?></h3>
                             <p class="product-description"><?php echo $termek_row['leiras']; ?></p>
+                            <p class="product-description">Feltöltés dátuma: &nbsp <?php echo $termek_row['feltoltes_date']; ?></p>
                             <h5 class="price">Elérhető mennyiség: <?php if ($termek_row['kategoria_id'] == '1' || $termek_row['kategoria_id'] == '2') {
                                                                         echo $termek_row['mennyiseg'] . ' kg';
                                                                     } else if ($termek_row['kategoria_id'] == '3' || $termek_row['kategoria_id'] == '4') {
@@ -95,21 +130,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <label>
                                         <h5 class="price">Megvásárolni kívánt mennyiség: </h5>
                                     </label>
-                                    <select style="width: 130px;">
+                                    <select style="width: 130px;" name="selectedQuantity" require>
                                         <option value="" disabled selected hidden>Mennyiség</option>
                                         <?php for ($i = 1; $i <= $termek_row['mennyiseg']; $i++) {
                                             if ($termek_row['kategoria_id'] == '1' || $termek_row['kategoria_id'] == '2') {
                                                 echo '<option value="' . $i . '">' . $i . ' kg</option>';
-                                                $db = $i;
                                             } else if ($termek_row['kategoria_id'] == '3' || $termek_row['kategoria_id'] == '4') {
                                                 echo '<option value="' . $i . '">' . $i . ' üveg</option>';
-                                                $db = $i;
                                             } else if ($termek_row['kategoria_id'] == '5' || $termek_row['kategoria_id'] == '6') {
                                                 echo '<option value="' . $i . '">' . $i . ' liter</option>';
-                                                $db = $i;
                                             } else {
                                                 echo '<option value="' . $i . '">' . $i . ' db</option>';
-                                                $db = $i;
                                             }
                                         } ?>
                                     </select>
@@ -126,9 +157,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                                     <h5 class="price"> Fizetendő összeg: &nbsp; <input type="text" name="fizetendo" readonly /> Ft</h5>
-                                    <div class="action">
-                                        <button class="add-to-cart btn btn-default" id="vasarlas" name="vasarlas" type="submit">vásárlás</button>
-                                    </div>
+                                    <form method="post">
+                                        <div class="action">
+                                            <input type="hidden" name="termekId" value="<?php echo $termek_id; ?>">
+                                            <input type="submit" class="add-to-cart btn btn-default" name="vasarlas" id="vasarlas" value="Vásárlás">
+                                            <a href="../user/vasarlas.php"><button type="button" class="back btn btn-default">Mégse</button></a>
+                                        </div>
+                                    </form>
                         </div>
                     </div>
                 </div>

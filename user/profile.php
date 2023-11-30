@@ -67,7 +67,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
             <li><a href="../user/uzenet.php">Üzenetek</a></li>
             <li class="active"><a href="../user/profile.php">Profilom</a></li>
-            <!--<li><a href="rolunk.php">Rólunk</a></li>-->
         </ul>
         <ul class="nav navbar-form form-inline navbar-right ml-auto">
             <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>

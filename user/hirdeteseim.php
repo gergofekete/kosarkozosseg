@@ -3,16 +3,16 @@ include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $login_user = $_SESSION['bejelentkezett'];
-    $hirdeto = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_user')");
-    $hirdeto_row = mysqli_fetch_assoc($hirdeto);
-    $hirdeto_id = $hirdeto_row['user_id'];
-    $termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id = '$hirdeto_id' AND jovahagyva = '1' AND torolve = '0' ORDER BY termek_id DESC");
+$login_user = $_SESSION['bejelentkezett'];
+$login_email = $_SESSION['bejelentkezett_email'];
+$hirdeto = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$login_user' OR email = '$login_email')");
+$hirdeto_row = mysqli_fetch_assoc($hirdeto);
+$hirdeto_id = $hirdeto_row['user_id'];
+$termekek = mysqli_query($connect, "SELECT * FROM termekek WHERE hirdeto_id = '$hirdeto_id' AND torolve = '0' ORDER BY termek_id DESC");
 
-    $kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
-    $kep_row = mysqli_fetch_assoc($kepek);
-}
+$kepek = mysqli_query($connect, "SELECT * FROM kepek INNER JOIN termekek WHERE kepek.kep_id = termekek.kep_id");
+$kep_row = mysqli_fetch_assoc($kepek);
+
 ?>
 
 <!DOCTYPE html>
@@ -41,9 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                 xhr.open('POST', '../torles.php', true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.send('termekId=' + termekId);
-
-                location.reload();
             }
+            location.reload();
             return confirmed;
         }
     </script>
@@ -74,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                     <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
                     <li><a href="../user/uzenet.php">Üzenetek</a></li>
                     <li><a href="../user/profile.php">Profilom</a></li>
-                    <!--<li><a href="rolunk.php">Rólunk</a></li>-->
                 </ul>
                 <ul class="nav navbar-form form-inline navbar-right ml-auto">
                     <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
@@ -86,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
             <div class="plans col-md-12 col-sm-12 col-xs-12 text-center">
                 <h5>Hirdetett Termékeim</h5>
             </div>
-        </div><!--container-fluid close-->
+        </div>
         <section>
             <div class="container">
                 <div class="row">
@@ -101,10 +99,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                 <div class="panel panel-pricing">
                                     <div class="panel-heading">
                                         <i class="fa"><img src="../uploads/<?php echo $kep_row['file_name'] ?>" style="width: auto; height: 100px;" alt="" /></i>
-                                        <h3>Termék neve: &nbsp; <?php echo $row['nev']; ?></h3>
-                                    </div><!--panel-heading close-->
+                                        <h3><?php echo $row['nev']; ?></h3>
+                                    </div>
                                     <?php
-                                    $maxLength = 30;
+                                    $maxLength = 18;
 
                                     if (isset($row['leiras'])) {
                                         $leiras = $row['leiras'];
@@ -129,26 +127,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                                                     echo "kg: &nbsp;" . $row['ar'] . " Ft";
                                                                 } else if ($row['kategoria_id'] == 3 || $row['kategoria_id'] == 4) {
                                                                     echo "üveg: &nbsp;" . $row['ar'] . " Ft";
-                                                                } else {
+                                                                } else if ($row['kategoria_id'] == 4 ||$row['kategoria_id'] == 5) {
                                                                     echo "liter: &nbsp;" . $row['ar'] . " Ft";
+                                                                } else {
+                                                                    echo "darab: &nbsp;" . $row['ar'] . " Ft";
                                                                 } ?></p>
-                                        <p class="p-tax">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
-                                    </div><!--panel-body text-center close-->
+                                        <p class="p-info">Leírás: &nbsp; <?php echo $shortDescription; ?></p>
+                                    </div>
                                     <div class="panel-body text-center">
-                                        <p class="p-tax">Státusz: &nbsp; <?php if ($row['jovahagyva'] == '0') {
+                                        <p class="p-info">Státusz: &nbsp; <?php if ($row['jovahagyva'] == '0') {
                                                                                 echo "Jóváhagyásra vár";
-                                                                            } else if($row['jovahagyva'] == '1') {
+                                                                            } else if ($row['jovahagyva'] == '1') {
                                                                                 echo "Jóváhagyva";
                                                                             } ?></p>
-                                    </div><!--panel-body text-center close-->
+                                    </div>
 
                                     <?php
                                     $torolni = $row['termek_id'];
-
-                                    if (isset($_POST['torles_termek_id'])) {
-                                        $termekID = $_POST['torles_termek_id'];
-                                        $eltavolit = mysqli_query($connect, "UPDATE termekek SET torolve = '1' WHERE termek_id = '$termekID'");
-                                    }
                                     ?>
                                     <form action="">
                                         <div>
@@ -161,20 +156,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST')
                                             <input type="hidden" id="torles_termek_id" name="torles_termek_id" value="<?php echo $torolni; ?>">
                                             <button type="button" class="btn del-btn" onclick="confirmDelete(<?php echo $torolni; ?>);">Törlés</button>
                                         </div>
-                                        <div></div>
                                     </form>
-                                </div><!--panel panel-pricing close-->
-                            </div><!--col-md-4 col-sm-4 col-xs-12 text-center close-->
+                                </div>
+                            </div>
                     <?php
                         }
                     }
                     ?>
 
 
-                </div><!--row close-->
+                </div>
 
-            </div><!--container close-->
-        </section><!--section close-->
+            </div>
+        </section>
     </form>
 </body>
 

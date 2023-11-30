@@ -3,13 +3,13 @@ include("../session.php");
 access("FELHASZNALO");
 include("../connect.php");
 
-ob_start();
 
 $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login_user = $_SESSION['bejelentkezett'];
-    $result = mysqli_query($connect, "SELECT user_id FROM user WHERE username = '$login_user'");
+    $login_email = $_SESSION['bejelentkezett_email'];
+    $result = mysqli_query($connect, "SELECT user_id FROM user WHERE (username = '$login_user' OR email = '$login_email')");
     $row = mysqli_fetch_assoc($result);
     $id = $row['user_id'];
     $termek_neve = $_POST['termek_neve'];
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     VALUES ('$kategoria', '$id', '$termek_neve', '$leiras', '$mennyiseg', '$ar', '$_last_imageId', '$feltoltes_date', '0', '0')";
 
             if (mysqli_query($connect, $query)) {
-                echo "A hirdetés sikeresen feladva!";
+                header("Location: ../user/hirdeteseim.php");
             } else {
                 echo "Sikertelen hirdetés feladás!";
             }
@@ -95,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
                 <li><a href="../user/uzenet.php">Üzenetek</a></li>
                 <li><a href="../user/profile.php">Profilom</a></li>
-                <!--<li><a href="rolunk.php">Rólunk</a></li>-->
             </ul>
             <ul class="nav navbar-form form-inline navbar-right ml-auto">
                 <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
@@ -113,14 +112,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="" disabled selected hidden>Kategória</option>
                             <?php
                             while ($kat_row = mysqli_fetch_assoc($kat_all)) { ?>
-                                <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev'] ?></option>
+                                <option value="<?php echo $kat_row['kategoria_id']; ?>"><?php echo $kat_row['nev']; ?></option>
                             <?php
                             }
                             ?>
                         </select>
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
-                                // Funkció a placeholder beállítására a kiválasztott kategória nevére
                                 function setMennyisegPlaceholder() {
                                     var selectedCategory = $("#kategoria").val();
                                     var mennyisegInput = document.querySelector('input[name="mennyiseg"]');
@@ -128,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     var mennyisegPlaceholder = "Mennyiség";
                                     var arPlaceholder = "Ár";
 
-                                    // A kategóriától függően módosítjuk a placeholder szöveget
                                     if (selectedCategory === "1" || selectedCategory === "2") {
                                         mennyisegPlaceholder += " (kg)";
                                         arPlaceholder += " (Ft/kg)";
@@ -138,16 +135,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     } else if (selectedCategory === "5" || selectedCategory === "6") {
                                         mennyisegPlaceholder += " (liter)";
                                         arPlaceholder += " (Ft/liter)";
+                                    } else if (selectedCategory === "7") {
+                                        mennyisegPlaceholder += " (db)";
+                                        arPlaceholder += " (Ft)";
                                     }
 
                                     mennyisegInput.setAttribute("placeholder", mennyisegPlaceholder);
                                     arInput.setAttribute("placeholder", arPlaceholder);
                                 }
 
-                                // Az eseménykezelő a kategória kiválasztás változására
                                 $("#kategoria").change(setMennyisegPlaceholder);
 
-                                // Alapértelmezett placeholder beállítása az oldal betöltésekor
                                 setMennyisegPlaceholder();
                             });
                         </script>
