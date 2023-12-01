@@ -9,7 +9,9 @@ $user = mysqli_query($connect, "SELECT * FROM user WHERE user_id = '$user_id'");
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['del'])) {
-        $torol = mysqli_query($connect, "DELETE FROM user WHERE user_id = $user_id");
+        $torol = mysqli_query($connect, "DELETE FROM user WHERE user_id = '$user_id'");
+        $uzenet_torol = mysqli_query($connect, "DELETE FROM uzenetek WHERE (felado_id = '$user_id' OR cimzett_id = '$user_id'");
+        $termek_torol = mysqli_query($connect, "DELETE FROM termekek WHERE hirdeto_id = '$user_id'");
         header("Location: ../admin/felh_eltav.php");
     }
 }
