@@ -231,11 +231,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="type_msg">
                         <div class="input_msg_write">
                             <form method="post">
-                                <input type="text" class="write_msg" name="uzenet" placeholder="Üzenet írása" />
+
                                 <input type="hidden" name="termek_id" value="<?php echo $termek_id; ?>">
                                 <input type="hidden" name="felado_id" value="<?php echo $felado_id; ?>">
                                 <input type="hidden" name="cimzett_id" value="<?php echo $cimzett_id; ?>">
-                                <button class="msg_send_btn" type="submit" name="kuld"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
+                                    <input type="text" class="write_msg" name="uzenet" placeholder="Üzenet írása" />
+                                    <button class="msg_send_btn" type="submit" name="kuld"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                <?php
+                                } ?>
                             </form>
                         </div>
                     </div>

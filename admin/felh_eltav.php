@@ -10,11 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $keres = $_POST['felhasznalonev'];
         $felhasznalok = mysqli_query($connect, "SELECT * FROM user WHERE (admine = '0' AND username LIKE '%$keres%')");
     }
-    if(isset($_POST['torol'])) {
-        $felh_id = $_POST['felh_id'];
-        $torol = mysqli_query($connect, "DELETE FROM user WHERE user_id = '$felh_id'");
-        header("Refresh:0");
-    }
 }
 ?>
 
@@ -96,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <td><?php echo $row['username']; ?></td>
                                 <td><?php echo $row['email']; ?></td>
                                 <input type="hidden" name="felh_id" value="<?php echo $user_id; ?>">
-                                <td><button type="submit" name="torol" style="background-color: #ba1717; color: white" onclick="confirmDelete(<?php echo $user_id; ?>);">Törlés</button></td>
+                                <td><a href="../admin/eltavolit.php?felhId=<?php echo $user_id; ?>"><button type="button" class="btn btn-sm manage">Megtekintés</button></a></td>
                             </tr>
                         </form>
                 <?php
