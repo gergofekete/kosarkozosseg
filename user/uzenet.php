@@ -12,7 +12,7 @@ $me_username = $me_row['username'];
 
 $uzeneteim = mysqli_query($connect, "SELECT u1.* FROM uzenetek u1
     LEFT JOIN uzenetek u2 ON (u1.termek_id = u2.termek_id AND u1.kuldes_date < u2.kuldes_date)
-    WHERE (u1.felado_id = '$me_id' OR u1.cimzett_id = '$me_id')
+    WHERE (u1.felado_id = '$me_id' OR u1.cimzett_id = '$me_id') AND  u1.termek_id != '0'
     AND u2.termek_id IS NULL
     ORDER BY u1.kuldes_date DESC");
 
