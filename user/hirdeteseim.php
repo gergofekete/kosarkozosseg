@@ -120,14 +120,16 @@ $kep_row = mysqli_fetch_assoc($kepek);
                                                 echo $row['mennyiseg'] . " kg";
                                             } else if ($row['kategoria_id'] == 3 || $row['kategoria_id'] == 4) {
                                                 echo $row['mennyiseg'] . " üveg";
-                                            } else {
+                                            } else if ($row['kategoria_id'] == 5 || $row['kategoria_id'] == 6) {
                                                 echo $row['mennyiseg'] . " liter";
+                                            } else {
+                                                echo $row['mennyiseg'] . " db";
                                             } ?></p>
                                         <p class="p-title">Ár/<?php if ($row['kategoria_id'] == 1 || $row['kategoria_id'] == 2) {
                                                                     echo "kg: &nbsp;" . $row['ar'] . " Ft";
                                                                 } else if ($row['kategoria_id'] == 3 || $row['kategoria_id'] == 4) {
                                                                     echo "üveg: &nbsp;" . $row['ar'] . " Ft";
-                                                                } else if ($row['kategoria_id'] == 4 ||$row['kategoria_id'] == 5) {
+                                                                } else if ($row['kategoria_id'] == 5 ||$row['kategoria_id'] == 6) {
                                                                     echo "liter: &nbsp;" . $row['ar'] . " Ft";
                                                                 } else {
                                                                     echo "darab: &nbsp;" . $row['ar'] . " Ft";
