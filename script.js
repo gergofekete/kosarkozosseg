@@ -1,4 +1,3 @@
-// script.js
 var selectedData = {};
 
 function listItemClick(felado_id, cimzett_id, termek_id) {
