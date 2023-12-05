@@ -9,7 +9,6 @@ body {
     background-size: contain;
     background-origin: content-box;
 }
-
 .form-control{
     height: 40px;
     box-shadow: none;
