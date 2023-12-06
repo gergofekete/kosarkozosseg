@@ -5,7 +5,6 @@ include("../connect.php");
 
 $termek_id = $_POST['termekId'];
 
-
 $selectedQuantity = 0;
 
 $termek_adat = mysqli_query($connect, "SELECT * FROM termekek WHERE termek_id = '$termek_id'");
@@ -13,7 +12,6 @@ $termek_row = mysqli_fetch_assoc($termek_adat);
 
 $kepek = mysqli_query($connect, "SELECT * FROM kepek WHERE kep_id = '$termek_row[kep_id]'");
 $kep_row = mysqli_fetch_assoc($kepek);
-
 
 $selectedQuantity = 0;
 
@@ -154,7 +152,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vasarlas'])) {
 
                                         document.querySelector('select').addEventListener('input', calculateTotal);
                                     </script>
-
 
                                     <h5 class="price"> Fizetendő összeg: &nbsp; <input type="text" name="fizetendo" readonly /> Ft</h5>
                                     <form method="post">

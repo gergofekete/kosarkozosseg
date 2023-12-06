@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         arPlaceholder += " (Ft/liter)";
                                     } else if (selectedCategory === "7") {
                                         mennyisegPlaceholder += " (db)";
-                                        arPlaceholder += " (Ft)";
+                                        arPlaceholder += " (Ft/db)";
                                     }
 
                                     mennyisegInput.setAttribute("placeholder", mennyisegPlaceholder);

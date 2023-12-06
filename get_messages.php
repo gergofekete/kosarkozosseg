@@ -18,11 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
 
         http_response_code(400);
-        echo "Hiányzó adatok a kérésben.";
     }
 } else {
 
     http_response_code(405);
-    echo "Csak POST kérést fogadunk el.";
 }
 ?>

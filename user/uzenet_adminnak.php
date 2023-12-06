@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <style>
         @import url(../style/navstyle.css);
-        @import url(../style/uzenet2.css);
+        @import url(../style/uzenet.css);
     </style>
 
 </head>
