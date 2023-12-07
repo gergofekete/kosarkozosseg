@@ -22,7 +22,6 @@ if (isset($_POST['upload'])) {
     $mennyiseg = $_POST['mennyiseg'];
     $ar = $_POST['ar'];
     $leiras = $_POST['leiras'];
-
     $modosit = mysqli_query($connect, "UPDATE termekek SET nev = '$termek_neve', kategoria_id = '$kategoria', mennyiseg = '$mennyiseg', ar = '$ar', leiras = '$leiras' WHERE termek_id = '$termek_id'");
     header("Location: hirdeteseim.php");
 }

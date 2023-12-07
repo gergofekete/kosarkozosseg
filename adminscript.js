@@ -1,3 +1,4 @@
+// script.js
 var selectedData = {};
 
 function listItemClick(felado_id, cimzett_id, termek_id) {
@@ -16,7 +17,7 @@ function listItemClick(felado_id, cimzett_id, termek_id) {
 
             var form = document.createElement("form");
             form.method = "post";
-            form.action = "uzenet.php";
+            form.action = "adminuzenetek.php";
 
             for (var key in selectedDataFromServer) {
                 var input = document.createElement("input");

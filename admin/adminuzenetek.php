@@ -1,6 +1,6 @@
 <?php
 include("../session.php");
-access("FELHASZNALO");
+access("ADMIN");
 include("../connect.php");
 
 $login_user = $_SESSION['bejelentkezett'];
@@ -10,11 +10,20 @@ $me_row = mysqli_fetch_assoc($me);
 $me_id = $me_row['user_id'];
 $me_username = $me_row['username'];
 
-$uzeneteim = mysqli_query($connect, "SELECT u1.* FROM uzenetek u1
-    LEFT JOIN uzenetek u2 ON (u1.termek_id = u2.termek_id AND u1.kuldes_date < u2.kuldes_date)
-    WHERE (u1.felado_id = '$me_id' OR u1.cimzett_id = '$me_id') AND  u1.termek_id != '0'
-    AND u2.termek_id IS NULL
-    ORDER BY u1.kuldes_date DESC");
+
+
+$uzeneteim = mysqli_query($connect, "
+    SELECT u.*, felado.username AS felado_username, cimzett.username AS cimzett_username
+    FROM uzenetek u
+    JOIN user felado ON u.felado_id = felado.user_id
+    JOIN user cimzett ON u.cimzett_id = cimzett.user_id
+    WHERE (felado.username = '$login_user' OR cimzett.username = '$login_user')
+      AND (felado.username != '$login_user')  -- Ezt a sort hozzáadtuk
+    GROUP BY felado_username, cimzett_username
+    ORDER BY u.kuldes_date DESC
+");
+
+
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -31,17 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['uzenet']) && $_POST['uzenet'] != '') {
             $termek = mysqli_query($connect, "SELECT nev FROM termekek WHERE termek_id = '$termek_id'");
             $t_row = mysqli_fetch_assoc($termek);
-            $termek_nev = $t_row['nev'];
             $szoveg = $_POST['uzenet'];
 
             $kuldes_date = date("Y-m-d H:i:s");
 
             if ($felado_id == $me_id) {
                 $send_message = mysqli_query($connect, "INSERT INTO uzenetek (felado_id, cimzett_id, termek_id, targy, szoveg, kuldes_date)
-                                            VALUES ('$me_id', '$cimzett_id', '$termek_id', '$termek_nev', '$szoveg', '$kuldes_date')");
+                                            VALUES ('$me_id', '$cimzett_id', '0', 'admin', '$szoveg', '$kuldes_date')");
             } else if ($cimzett_id == $me_id) {
                 $send_message = mysqli_query($connect, "INSERT INTO uzenetek (felado_id, cimzett_id, termek_id, targy, szoveg, kuldes_date)
-                                            VALUES ('$me_id', '$felado_id', '$termek_id', '$termek_nev', '$szoveg', '$kuldes_date')");
+                                            VALUES ('$me_id', '$felado_id', '0', 'admin', '$szoveg', '$kuldes_date')");
             }
             header("Reload:0");
         }
@@ -69,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="../script.js"></script>
+    <script src="../adminscript.js"></script>
 
 
 
@@ -83,22 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <nav class="navbar navbar-default navbar-expand-lg navbar-light">
         <div class="navbar-header">
-            <a class="navbar-brand" href="../user/kezdolap.php">Szekszárdi Kosár<b>Közösség</b></a>
-            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-                <span class="navbar-toggler-icon"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            <a class="navbar-brand" href="../admin/adminkezdolap.php"><b>Admin</b> Felület</a>
         </div>
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="../user/eladas.php">Eladás</a></li>
-                <li><a href="../user/hirdeteseim.php">Hirdetéseim</a></li>
-                <li><a href="../user/vasarlas.php">Vásárlás</a></li>
-                <li><a href="../user/kosark.php">Mi az a kosárközösség?</a></li>
-                <li class="active"><a href="../user/uzenet.php">Üzenetek</a></li>
-                <li><a href="../user/profile.php">Profilom</a></li>
+                <li><a href="../admin/felh_eltav.php">Felhasználók eltávolítása</a></li>
+                <li class="active"><a href="../admin/adminuzenetek.php">Üzenetek</a></li>
+                <li><a href="../admin/adminprofil.php">Profilom</a></li>
             </ul>
             <ul class="nav navbar-form form-inline navbar-right ml-auto">
                 <li style="float: right;text-align:right; color: black;"><a href="../logout.php">Kijelentkezés</a></li>
@@ -113,9 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="headind_srch">
                         <div class="recent_heading">
                             <h4>Üzenetek</h4>
-                        </div>
-                        <div>
-                           <a href="../user/uzenet_adminnak.php"><button type="button" style="color: black; font-size: 12px;">Admin üzenetek</button></a>
                         </div>
                     </div>
                     <div class="inbox_chat">
@@ -153,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 }
                             }
 
-                            if (isset($_POST['termek_id']) && $termek_id == $_POST['termek_id']) {
+                            if (isset($_POST['felado_id']) && isset($_POST['cimzett_id']) && $felado_id == $_POST['felado_id'] && $cimzett_id == $_POST['cimzett_id']) {
                         ?>
                                 <div class="chat_list active_chat" onclick="listItemClick(<?php echo $felado_id; ?>, <?php echo $cimzett_id; ?>, <?php echo $termek_id; ?>)">
 
@@ -200,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $cimzett_id = $_POST['cimzett_id'];
                                 $termek_id = $_POST['termek_id'];
 
-                                $chat = mysqli_query($connect, "SELECT * FROM uzenetek WHERE (felado_id = '$me_id' OR cimzett_id = '$me_id') AND termek_id = '$termek_id'");
+                                $chat = mysqli_query($connect, "SELECT * FROM uzenetek WHERE (felado_id = '$me_id' OR cimzett_id = '$me_id') AND (felado_id = '$felado_id' OR cimzett_id = '$felado_id' )");
 
                                 while ($row = mysqli_fetch_assoc($chat)) {
                                     if ($row['felado_id'] == $me_id) { ?>

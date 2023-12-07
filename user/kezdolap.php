@@ -122,21 +122,21 @@ $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
             <div class="row">
                 <div class="col-lg-4">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3" src="../style/profile.png" alt="">
+                        <img class="img-fluid rounded-circle mb-3" src="" alt="">
                         <h5>F. Zsófia</h5>
                         <p class="font-weight-dark mb-0">"Nézd a kézmműves termékeimet."</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3" src="../style/profile.png" alt="">
+                        <img class="img-fluid rounded-circle mb-3" src="" alt="">
                         <h5>E. Réka</h5>
                         <p class="font-weight-dark mb-0">"Kostold meg a házi finomságaimat."</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3" src="../style/profile.png" alt="">
+                        <img class="img-fluid rounded-circle mb-3" src="" alt="">
                         <h5>F. Gergő</h5>
                         <p class="font-weight-dark mb-0">"Az oldal alkotója"</p>
                     </div>
@@ -150,7 +150,7 @@ $kat_all = mysqli_query($connect, "SELECT * FROM kategoria");
             <div class="row text-xs-center text-sm-left text-md-left mb-5">
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     <h5 class="txt-upper">Rólunk</h5>
-                    <p class="myfont-color text-justify">Kosárközösségünk éééé. óta működik, folyamatosan bővül a tagok száma.</p>
+                    <p class="myfont-color text-justify">Kosárközösségünk 2023. óta működik, folyamatosan bővül a tagok száma.</p>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3 myfont-color">
                     <h5 class="txt-upper">Termék kategóriák</h5>

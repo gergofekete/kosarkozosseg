@@ -9,14 +9,11 @@ $hirdetes_row = mysqli_fetch_assoc($hirdetes_adat);
 $termek_id = $hirdetes_row['termek_id'];
 $felado_id = $hirdetes_row['hirdeto_id'];
 $kat_id = $hirdetes_row['kategoria_id'];
-
 $kepek = mysqli_query($connect, "SELECT * FROM kepek WHERE kep_id = '$hirdetes_row[kep_id]'");
 $kep_row = mysqli_fetch_assoc($kepek);
-
 $felado = mysqli_query($connect, "SELECT lname, fname FROM user WHERE user_id = '$felado_id'");
 $felado_row = mysqli_fetch_assoc($felado);
 $felado_name = $felado_row['lname'] . ' ' . $felado_row['fname'];
-
 $kat = mysqli_query($connect, "SELECT nev FROM kategoria WHERE kategoria_id = '$kat_id'");
 $kat_row = mysqli_fetch_assoc($kat);
 $kat_name = $kat_row['nev'];
