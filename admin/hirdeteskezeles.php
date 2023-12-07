@@ -122,7 +122,6 @@ $kat_name = $kat_row['nev'];
                 $approval = mysqli_query($connect, "UPDATE termekek SET jovahagyva = '1' WHERE termek_id = '$termek_id'");
                 header("location: adminkezdolap.php");
             } ?>
-
         </form>
     </div>
 </body>
