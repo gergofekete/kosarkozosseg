@@ -10,7 +10,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $login_user = $_SESSION['bejelentkezett'];
     $login_email = $_SESSION['bejelentkezett_email'];
-    echo $login_email;
     $sql = mysqli_query($connect, "SELECT * FROM user WHERE (username = '$login_user' OR email = '$login_email')");
     $row = mysqli_fetch_assoc($sql);
     $username = $row['username'];
@@ -18,7 +17,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         if($newpassword == $newpassword2) {
             $set_password = md5($newpassword);
             $update = mysqli_query($connect, "UPDATE user SET password = '$set_password' WHERE username =  '$username'");
-            echo "Sikeres jelszó változtatás!";
         }
         else {
             echo "A jelszavak nem egyeznek!";
@@ -117,7 +115,7 @@ td, th {
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="Change"></td>
+            <td><input type="submit" value="Válzottatás"></td>
         </tr>
     </form>
 </table>
